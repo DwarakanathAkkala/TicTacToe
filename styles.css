@@ -1,0 +1,31 @@
+body{
+    background-color: #08D9D6;
+}
+h1 {
+    color: #252A34;
+}
+
+.container{
+    width: 30% !important;
+}
+
+#cell1 {border-width: 0px 5px 5px 0;}
+#cell2 {border-width: 0px 5px 5px 0;}
+#cell3 {border-width: 0px 0 5px 0;}
+#cell4 {border-width: 0 5px 5px 0;}
+#cell5 {border-width: 0px 5px 5px 0;}
+#cell6 {border-width: 0 0 5px 0;}
+#cell7 {border-width: 0 5px 0 0;}
+#cell8 {border-width: 0 5px 0 0;}
+#cell9 {border-width: 0 0 0 0;}
+
+td {
+    font-size:xx-large;
+    border-color: white;
+    border-style: solid;
+    padding: auto;
+}
+
+tr {
+    height: 100px !important;
+}
