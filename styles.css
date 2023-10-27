@@ -9,6 +9,24 @@ h1 {
     width: 30% !important;
 }
 
+table {
+    max-width: 800px;
+}
+
+input{
+    background-color: transparent ;
+    border: none;
+    caret-color: transparent;
+    cursor: pointer;
+}
+
+input:focus {
+    border-color: transparent;
+    box-shadow: 0 inset, 0 ;
+    outline: 0 none;
+    caret-color: transparent;
+}
+
 #cell1 {border-width: 0px 5px 5px 0;}
 #cell2 {border-width: 0px 5px 5px 0;}
 #cell3 {border-width: 0px 0 5px 0;}
