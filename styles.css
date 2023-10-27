@@ -20,8 +20,9 @@ h1 {
 #cell9 {border-width: 0 0 0 0;}
 
 td {
-    font-size:xx-large;
-    border-color: white;
+    color: #FF2E63;
+    font-size: xx-large;
+    border-color: #EAEAEA;
     border-style: solid;
     padding: auto;
 }
