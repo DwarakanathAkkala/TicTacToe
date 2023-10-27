@@ -41,6 +41,7 @@ function startGame(val) {
     if (flag == false) {
         gridCells[val].innerText = currSign;
         playersInfo[currSign].entries.push(val);
+        checkResult(currSign);
         flag = true;
         currSign = "O";
     }
@@ -48,9 +49,27 @@ function startGame(val) {
     else if (flag == true) {
         gridCells[val].innerText = currSign;
         playersInfo[currSign].entries.push(val);
-
+        checkResult(currSign);
         flag = false;
         currSign = "X";
     }
 
+}
+
+function checkResult(ele) {
+    for (let i in winningScenarios) {
+        if (ignoreOrderCompare(winningScenarios[i], playersInfo[ele].entries)) console.log("Winning Situation")
+    }
+}
+
+
+const ignoreOrderCompare = (a, b) => {
+    if (a.length !== b.length) return false;
+    const elements = new Set([...a, ...b]);
+    for (const x of elements) {
+        const count1 = a.filter(e => e === x).length;
+        const count2 = b.filter(e => e === x).length;
+        if (count1 !== count2) return false;
+    }
+    return true;
 }
