@@ -45,7 +45,8 @@ td {
     font-size: xx-large;
     border-color: #EAEAEA;
     border-style: solid;
-    padding: auto;
+    padding: 0 !important;
+    vertical-align: middle !important;
 }
 
 tr {
@@ -62,4 +63,5 @@ tr {
     tr {
         height: 80px !important;
     }
+
 }
