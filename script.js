@@ -65,10 +65,6 @@ function checkResult(ele) {
             console.log("Winning Scenario")
             console.log(playersInfo[ele].displayName, "wins")
         }
-        // if (ignoreOrderCompare(winningScenarios[i], playersInfo[ele].entries)) {
-        //     console.log("Winning Situation")
-        //     
-        // }
     }
 }
 
