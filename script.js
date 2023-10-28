@@ -15,6 +15,7 @@ let winningScenarios = [
 ]
 
 let gridCells = document.querySelectorAll("td");
+let inputElements = document.querySelectorAll("input");
 let flag = false;
 let currTurn = "player1";
 let currSign = "X";
@@ -32,14 +33,16 @@ let playersInfo = {
 };
 
 for (let i = 0; i < gridCells.length; i++) {
-    gridCells[i].addEventListener("click", () => {
-        startGame(i);
-    });
+    if (inputElements[i].disabled == false) {
+        inputElements[i].addEventListener("click", () => {
+            startGame(i);
+        });
+    }
 }
 
 function startGame(val) {
     if (flag == false) {
-        gridCells[val].innerText = currSign;
+        gridCells[val].innerHTML = `<input type="text" size="1" value="${currSign}" disabled="true">`;
         playersInfo[currSign].entries.push(val);
         checkResult(currSign);
         flag = true;
@@ -47,7 +50,7 @@ function startGame(val) {
     }
 
     else if (flag == true) {
-        gridCells[val].innerText = currSign;
+        gridCells[val].innerHTML = `<input type="text" size="1" value="${currSign}" disabled="true">`;
         playersInfo[currSign].entries.push(val);
         checkResult(currSign);
         flag = false;
