@@ -11,6 +11,7 @@ h1 {
 
 table {
     max-width: 800px;
+    table-layout: fixed;
 }
 
 input{
