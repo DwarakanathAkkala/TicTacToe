@@ -10,6 +10,11 @@ player2Input.addEventListener('change', () => { player1Input.value !== (null || 
 function choose() {
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "block";
+
+    for (let i in inputElements) {
+        inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = " ", inputElements[i].disabled = false);
+    }
+
     player1Input.value = "Player 1";
     player2Input.value = "Player 2";
     console.log(player1Input.value, " vs ", player2Input.value)
@@ -17,7 +22,6 @@ function choose() {
 }
 
 window.onload = () => {
-
     player1Input.value = "";
     player2Input.value = "";
 }
@@ -26,6 +30,7 @@ let winningScenarios = [
     [0, 5, 8],
     [0, 1, 2],
     [0, 3, 6],
+    [0, 4, 8],
     [1, 4, 7],
     [2, 5, 8],
     [2, 4, 6],
@@ -77,6 +82,7 @@ function checkResult(ele) {
             console.log(playersInfo[ele].entries)
             console.log("Winning Scenario")
             console.log(playersInfo[ele].displayName, "wins")
+            for (let i in inputElements) inputElements[i].disabled = true;
             document.getElementById("playGameBtn").style.display = "none";
             document.getElementById("restartBtn").style.display = "block";
         }
@@ -106,7 +112,6 @@ function changePreference() {
         i == "player2" ? playersInfo[i].sign = player2Sign.innerText : playersInfo[i].sign;
     }
 }
-
 
 
 function gameOn() {
