@@ -50,11 +50,28 @@
                 <div class="modal-content">
                     <div class="modal-header">Game Preferences</div>
                     <div class="modal-body">
-                        
+                        <div class="row">
+                            <div class="col-4 prefCol">
+                                <input type="text" class="form-control" placeholder="Player 1" aria-label="Player 1">
+                            </div>
+                            <div class="col-1 prefCol">
+                                <button class="btn btn-primary prefColBtn" value="X" disabled>X</button>
+                            </div>
+                            <div class="col-2 prefCol">
+                                <button class="btn btn-success prefColBtn">Flip</button>
+                            </div>
+                            <div class="col-1 prefCol">
+                                <button class="btn btn-primary prefColBtn" value="O" disabled>O</button>
+                            </div>
+
+                            <div class="col-4 prefCol">
+                                <input type="text" class="form-control" placeholder="Player 2" aria-label="Player 1">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" onclick="choose()" data-bs-dismiss="modal">Save changes</button>
                     </div>
                 </div>
               </div>
