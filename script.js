@@ -1,6 +1,14 @@
 // Choose X or O for players
 function choose() {
     console.log("Choose Function");
+
+    for (let i = 0; i < gridCells.length; i++) {
+        if (inputElements[i].disabled == false) {
+            inputElements[i].addEventListener("click", () => {
+                startGame(i);
+            });
+        }
+    }
 }
 
 let winningScenarios = [
@@ -18,43 +26,35 @@ let gridCells = document.querySelectorAll("td");
 let inputElements = document.querySelectorAll("input");
 let flag = false;
 let currTurn = "player1";
-let currSign = "X";
 let playersInfo = {
-    "X": {
-        "name": "player1",
+    "player1": {
         "displayName": "Player 1",
+        "sign": "X",
         "entries": []
     },
-    "O": {
-        "name": "player2",
+    "player2": {
         "displayName": "Player 2",
+        "sign": "O",
         "entries": []
     }
 };
 
-for (let i = 0; i < gridCells.length; i++) {
-    if (inputElements[i].disabled == false) {
-        inputElements[i].addEventListener("click", () => {
-            startGame(i);
-        });
-    }
-}
 
 function startGame(val) {
     if (flag == false) {
-        gridCells[val].innerHTML = `<input type="text" size="1" value="${currSign}" disabled="true">`;
-        playersInfo[currSign].entries.push(val);
-        checkResult(currSign);
+        gridCells[val].innerHTML = `<input type="text" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
+        playersInfo[currTurn].entries.push(val);
+        checkResult(currTurn);
         flag = true;
-        currSign = "O";
+        currTurn = "player2";
     }
 
     else if (flag == true) {
-        gridCells[val].innerHTML = `<input type="text" size="1" value="${currSign}" disabled="true">`;
-        playersInfo[currSign].entries.push(val);
-        checkResult(currSign);
+        gridCells[val].innerHTML = `<input type="text" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
+        playersInfo[currTurn].entries.push(val);
+        checkResult(currTurn);
         flag = false;
-        currSign = "X";
+        currTurn = "player1";
     }
 
 }
@@ -62,6 +62,7 @@ function startGame(val) {
 function checkResult(ele) {
     for (let i in winningScenarios) {
         if (winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == true) {
+            console.log(playersInfo[ele].entries)
             console.log("Winning Scenario")
             console.log(playersInfo[ele].displayName, "wins")
         }
