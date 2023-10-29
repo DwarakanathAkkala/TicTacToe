@@ -56,7 +56,6 @@ function startGame(val) {
         flag = false;
         currTurn = "player1";
     }
-
 }
 
 function checkResult(ele) {
@@ -65,6 +64,10 @@ function checkResult(ele) {
             console.log(playersInfo[ele].entries)
             console.log("Winning Scenario")
             console.log(playersInfo[ele].displayName, "wins")
+        }
+        else if (playersInfo[ele].entries.length > 4 && winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == false) {
+            console.log("Draw")
+            return;
         }
     }
 }
