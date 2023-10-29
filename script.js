@@ -1,18 +1,13 @@
 // Choose X or O for players
 function choose() {
     console.log("Choose Function");
-
-    for (let i = 0; i < gridCells.length; i++) {
-        if (inputElements[i].disabled == false) {
-            inputElements[i].addEventListener("click", () => {
-                startGame(i);
-            });
-        }
-    }
+    document.getElementById("playGameBtn").style.display = "none";
+    document.getElementById("restartBtn").style.display = "block";
+    gameOn();
 }
 
 let winningScenarios = [
-    [0, 1, 8],
+    [0, 5, 8],
     [0, 1, 2],
     [0, 3, 6],
     [1, 4, 7],
@@ -23,7 +18,8 @@ let winningScenarios = [
 ]
 
 let gridCells = document.querySelectorAll("td");
-let inputElements = document.querySelectorAll("input");
+let inputElements = document.getElementsByClassName("gameGrid");
+
 let flag = false;
 let currTurn = "player1";
 let playersInfo = {
@@ -41,8 +37,9 @@ let playersInfo = {
 
 
 function startGame(val) {
+    console.log("Start Game")
     if (flag == false) {
-        gridCells[val].innerHTML = `<input type="text" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
+        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
         playersInfo[currTurn].entries.push(val);
         checkResult(currTurn);
         flag = true;
@@ -50,7 +47,7 @@ function startGame(val) {
     }
 
     else if (flag == true) {
-        gridCells[val].innerHTML = `<input type="text" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
+        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
         playersInfo[currTurn].entries.push(val);
         checkResult(currTurn);
         flag = false;
@@ -64,10 +61,11 @@ function checkResult(ele) {
             console.log(playersInfo[ele].entries)
             console.log("Winning Scenario")
             console.log(playersInfo[ele].displayName, "wins")
+            document.getElementById("playGameBtn").style.display = "none";
+            document.getElementById("restartBtn").style.display = "block";
         }
         else if (playersInfo[ele].entries.length > 4 && winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == false) {
             console.log("Draw")
-            return;
         }
     }
 }
@@ -91,4 +89,32 @@ function changePreference() {
         i == "player1" ? playersInfo[i].sign = player1Sign.innerText : playersInfo[i].sign;
         i == "player2" ? playersInfo[i].sign = player2Sign.innerText : playersInfo[i].sign;
     }
+}
+
+function gameOn() {
+    inputElements = document.getElementsByClassName("gameGrid");
+    for (let i = 0; i < inputElements.length; i++) {
+        if (inputElements[i].disabled == false) {
+            inputElements[i].addEventListener("click", () => {
+                startGame(i);
+            });
+        }
+    }
+}
+
+function restartGame() {
+    // Reset Player Entries
+    playersInfo["player1"].entries = [];
+    playersInfo["player2"].entries = [];
+
+    for (let i in inputElements) {
+        inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = " ", inputElements[i].disabled = false);
+    }
+
+    gameOn();
+}
+
+function returnMainMenu() {
+    document.getElementById("playGameBtn").style.display = "block";
+    document.getElementById("restartBtn").style.display = "none";
 }

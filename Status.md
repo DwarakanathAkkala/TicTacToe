@@ -17,3 +17,4 @@ To Do
 
 1. Choosing preferences by user
 2. Alerts if any player wins the game.
+3. Reset Player Sign after reset button is clicked.
