@@ -74,3 +74,18 @@ let checkSubset = (parentArray, subsetArray) => {
         return parentArray.includes(el)
     })
 }
+
+let player1Sign = document.getElementById("player1Sign");
+let player2Sign = document.getElementById("player2Sign");
+
+function changePreference() {
+    // DOM Updation
+    player1Sign.innerText == "X" ? player1Sign.innerText = "O" : player1Sign.innerText = "X";
+    player2Sign.innerText == "O" ? player2Sign.innerText = "X" : player2Sign.innerText = "O";
+
+    // PlayerInfo Updation
+    for (i in playersInfo) {
+        i == "player1" ? playersInfo[i].sign = player1Sign.innerText : playersInfo[i].sign;
+        i == "player2" ? playersInfo[i].sign = player2Sign.innerText : playersInfo[i].sign;
+    }
+}
