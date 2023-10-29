@@ -1,9 +1,25 @@
-// Choose X or O for players
+let player1Input = document.getElementsByName("player1")[0];
+let player2Input = document.getElementsByName("player2")[0];
+
+// Event Listeners for Player Name Preferences
+player1Input.addEventListener('change', () => { player1Input.value !== (null || undefined) ? playersInfo["player1"].displayName = player1Input.value : "Player 1"; });
+
+player2Input.addEventListener('change', () => { player1Input.value !== (null || undefined) ? playersInfo["player2"].displayName = player1Input.value : "Player 2"; });
+
+
 function choose() {
-    console.log("Choose Function");
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "block";
+    player1Input.value = "Player 1";
+    player2Input.value = "Player 2";
+    console.log(player1Input.value, " vs ", player2Input.value)
     gameOn();
+}
+
+window.onload = () => {
+
+    player1Input.value = "";
+    player2Input.value = "";
 }
 
 let winningScenarios = [
@@ -91,13 +107,7 @@ function changePreference() {
     }
 }
 
-let player1Input = document.getElementsByName("player1")[0];
-let player2Input = document.getElementsByName("player2")[0];
 
-// Event Listeners for Player Name Preferences
-player1Input.addEventListener('change', () => { player1Input.value !== (null || undefined) ? playersInfo["player1"].displayName = player1Input.value : "Player 1"; });
-
-player2Input.addEventListener('change', () => { player1Input.value !== (null || undefined) ? playersInfo["player2"].displayName = player1Input.value : "Player 2"; });
 
 function gameOn() {
     inputElements = document.getElementsByClassName("gameGrid");
