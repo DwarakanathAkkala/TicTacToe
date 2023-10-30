@@ -146,7 +146,7 @@ let checkSubset = (parentArray, subsetArray) => {
 let player1Sign = document.getElementById("player1Sign");
 let player2Sign = document.getElementById("player2Sign");
 
-function changePreference() {
+function changeSign() {
     // DOM Updation
     player1Sign.innerText == "X" ? player1Sign.innerText = "O" : player1Sign.innerText = "X";
     player2Sign.innerText == "O" ? player2Sign.innerText = "X" : player2Sign.innerText = "O";
