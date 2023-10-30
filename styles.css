@@ -1,11 +1,12 @@
-body{
+body {
     background-color: #08D9D6;
 }
+
 h1 {
     color: #252A34;
 }
 
-.container{
+.container {
     width: 30% !important;
 }
 
@@ -14,7 +15,7 @@ table {
     table-layout: fixed;
 }
 
-input{
+input {
     text-align: center;
     vertical-align: middle;
     background-color: transparent ;
@@ -64,7 +65,6 @@ button {
 
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
-
     .container{
         width: 90% !important;
     }
