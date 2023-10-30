@@ -40,7 +40,7 @@ function choose() {
 
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "block";
-    document.getElementById("changePref").style.display = "block";
+    document.getElementById("changePrefBtn").style.display = "block";
 
     for (let i in inputElements) {
         inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = " ", inputElements[i].disabled = false);
@@ -128,7 +128,7 @@ function checkResult(ele) {
             for (let i in inputElements) inputElements[i].disabled = true;
             document.getElementById("playGameBtn").style.display = "none";
             document.getElementById("restartBtn").style.display = "block";
-            document.getElementById("changePref").style.display = "block";
+            document.getElementById("changePrefBtn").style.display = "block";
             return;
         }
         else if (playersInfo[ele].entries.length > 4 && winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == false) {
@@ -183,5 +183,6 @@ function restartGame() {
 function returnMainMenu() {
     document.getElementById("playGameBtn").style.display = "block";
     document.getElementById("restartBtn").style.display = "none";
+    document.getElementById("changePrefBtn").style.display = "none";
 }
 
