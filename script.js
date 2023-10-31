@@ -11,6 +11,17 @@ container.innerHTML = `
             </div>
         </div>
     </div>
+
+    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
+        <div id="drawToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mt-auto">It's a draw</strong>
+            </div>
+            <div class="toast-body bg-success text-white" id="drawMsg">
+                Looks like tough competetion! 
+            </div>
+        </div>
+    </div>
 `;
 
 // Add Created DOM to HTML
@@ -18,6 +29,11 @@ document.body.append(container);
 
 let winMsgElement = document.getElementById("winnerToast");
 let winMsgToast = new bootstrap.Toast(winMsgElement, {
+    delay: 800
+});
+
+let drawMsgElement = document.getElementById("drawToast");
+let drawMsgToast = new bootstrap.Toast(drawMsgElement, {
     delay: 800
 });
 
@@ -137,7 +153,11 @@ function checkResult(ele) {
             return;
         }
         else if (playersInfo[ele].entries.length > 4 && winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == false) {
-            console.log("Draw")
+            drawMsgToast.show();
+            for (let i in inputElements) inputElements[i].disabled = true;
+            document.getElementById("playGameBtn").style.display = "none";
+            document.getElementById("restartBtn").style.display = "block";
+            document.getElementById("changePrefBtn").style.display = "block";
         }
     }
 }
