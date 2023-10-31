@@ -29,9 +29,7 @@ player1Input.addEventListener('change', () => { player1Input.value !== (null || 
 
 player2Input.addEventListener('change', () => { player2Input.value !== (null || undefined) ? playersInfo["player2"].displayName = player2Input.value : "Player 2"; });
 
-
 function choose() {
-
     // PlayerInfo Updation
     for (i in playersInfo) {
         i == "player1" ? playersInfo[i].sign = player1Sign.innerText : playersInfo[i].sign;
@@ -41,9 +39,10 @@ function choose() {
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "block";
     document.getElementById("changePrefBtn").style.display = "block";
+    document.getElementById("playAgain").style.display = "none";
 
     for (let i in inputElements) {
-        inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = " ", inputElements[i].disabled = false);
+        inputElements[i].value == ("" || undefined) ? inputElements[i].disabled = false : inputElements[i].disabled = false;
     }
 
     console.log(player1Input.value, " vs ", player2Input.value);
@@ -56,10 +55,22 @@ function choose() {
     console.log("Choices at Start", currGameChoice);
 }
 
-window.onload = () => {
-    player1Input.value = "";
-    player2Input.value = "";
+function gameOn() {
+    inputElements = document.getElementsByClassName("gameGrid");
+
+    console.log("Current Turn", currTurn);
+
+    for (let i = 0; i < inputElements.length; i++) {
+        if (inputElements[i].disabled == false) {
+            inputElements[i].addEventListener("click", () => {
+                startGame(i);
+                return;
+            });
+        }
+    }
 }
+
+
 
 let winningScenarios = [
     [0, 5, 8],
@@ -76,7 +87,6 @@ let winningScenarios = [
 let gridCells = document.querySelectorAll("td");
 let inputElements = document.getElementsByClassName("gameGrid");
 
-let flag = false;
 let currTurn = "player1";
 let currGameChoice;
 let playersInfo = {
@@ -95,20 +105,25 @@ let playersInfo = {
 
 function startGame(val) {
     console.log("Start Game")
-    if (flag == false) {
-        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
-        playersInfo[currTurn].entries.push(val);
-        checkResult(currTurn);
-        flag = true;
+
+    if (currTurn == "player1" && !((playersInfo["player2"].entries).includes(val))) {
+        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo["player1"].sign}" disabled="true">`;
+        playersInfo["player1"].entries.push(val);
+        console.log("Player 1 Entries", playersInfo["player1"].entries);
+        checkResult("player1");
+        console.log("Current Turn", currTurn)
         currTurn = "player2";
+        return;
     }
 
-    else if (flag == true) {
-        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo[currTurn].sign}" disabled="true">`;
-        playersInfo[currTurn].entries.push(val);
-        checkResult(currTurn);
-        flag = false;
+    else if (currTurn == "player2" && !((playersInfo["player1"].entries).includes(val))) {
+        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo["player2"].sign}" disabled="true">`;
+        playersInfo["player2"].entries.push(val);
+        console.log("Player 2 Entries", playersInfo["player2"].entries);
+        checkResult("player2");
+        console.log("Current Turn", currTurn)
         currTurn = "player1";
+        return;
     }
 }
 
@@ -123,7 +138,6 @@ function checkResult(ele) {
 
             document.getElementById("winnerMsg").innerText = playersInfo[ele].displayName + " Wins";
             winMsgToast.show();
-
 
             for (let i in inputElements) inputElements[i].disabled = true;
             document.getElementById("playGameBtn").style.display = "none";
@@ -152,21 +166,15 @@ function changeSign() {
     player2Sign.innerText == "O" ? player2Sign.innerText = "X" : player2Sign.innerText = "O";
 }
 
-
-function gameOn() {
-    inputElements = document.getElementsByClassName("gameGrid");
-    for (let i = 0; i < inputElements.length; i++) {
-        if (inputElements[i].disabled == false) {
-            inputElements[i].addEventListener("click", () => {
-                startGame(i);
-            });
-        }
-    }
-}
-
 function restartGame() {
 
+    document.getElementById("playGameBtn").style.display = "none";
+    document.getElementById("restartBtn").style.display = "none";
+    document.getElementById("changePrefBtn").style.display = "block";
+    document.getElementById("playAgain").style.display = "block";
+
     playersInfo = currGameChoice;
+    currTurn = "player1"
     console.log("Choices after Restart", currGameChoice);
 
     // Reset Player Entries
@@ -174,10 +182,8 @@ function restartGame() {
     playersInfo["player2"].entries = [];
 
     for (let i in inputElements) {
-        inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = " ", inputElements[i].disabled = false);
+        inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = true) : (inputElements[i].value = " ", inputElements[i].disabled = true);
     }
-
-    gameOn();
 }
 
 function returnMainMenu() {

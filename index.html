@@ -42,11 +42,14 @@
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" id="playGameBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Play Game</button>
                 <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-danger" id="changePrefBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="display: none;">Change Preferences</button>
+                    <div class="col" id="changePrefBtn" style="display: none;">
+                        <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal">Change Preferences</button>
                     </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-warning" id="restartBtn" style="display: none;" onclick="restartGame()">Restart Game</button>
+                    <div class="col" id="restartBtn" style="display: none;">
+                        <button type="button" class="btn btn-warning"  onclick="restartGame()">Restart Game</button>
+                    </div>
+                    <div class="col" id="playAgain" style="display: none;">
+                        <button type="button" class="btn btn-warning" onclick="choose()">Play Again</button>
                     </div>
                 </div>    
             </div>
