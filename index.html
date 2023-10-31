@@ -43,7 +43,7 @@
                 <button type="button" class="btn btn-primary" id="playGameBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Play Game</button>
                 <div class="row">
                     <div class="col" id="changePrefBtn" style="display: none;">
-                        <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal">Change Preferences</button>
+                        <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#preferConfirmModal">Change Preferences</button>
                     </div>
                     <div class="col" id="restartBtn" style="display: none;">
                         <button type="button" class="btn btn-warning"  onclick="restartGame()">Restart Game</button>
@@ -62,7 +62,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-4 prefCol">
-                                <input type="text" class="form-control" name="player1" placeholder="Player 1" aria-label="Player 1">
+                                <input type="text" class="form-control" id="player1" name="player1" value="Player 1" placeholder="Player 1" aria-label="Player 1">
                             </div>
                             <div class="col-1 prefCol">
                                 <button id="player1Sign" class="btn btn-primary prefColBtn" disabled>X</button>
@@ -75,17 +75,30 @@
                             </div>
 
                             <div class="col-4 prefCol">
-                                <input type="text" class="form-control" name="player2" placeholder="Player 2" aria-label="Player 1">
+                                <input type="text" class="form-control" id="player2" name="player2" value="Player 2" placeholder="Player 2" aria-label="Player 2">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="choose()" data-bs-dismiss="modal">Game On!</button>
+                        <button type="button" class="btn btn-primary" onclick="changePreferences()" data-bs-dismiss="modal">Game On!</button>
                     </div>
                 </div>
               </div>
             </div>
+            
+             <!-- Modal -->
+             <div class="modal fade" id="preferConfirmModal" tabindex="-1" aria-labelledby="preferConfirmModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                      <div class="modal-header">Any game progress would be lost. Would you like to continue?</div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-dismiss="modal">Yes. Change Preferences!</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
             
 
         </div>

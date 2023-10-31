@@ -21,20 +21,27 @@ let winMsgToast = new bootstrap.Toast(winMsgElement, {
     delay: 800
 });
 
-let player1Input = document.getElementsByName("player1")[0];
-let player2Input = document.getElementsByName("player2")[0];
+function changePreferences() {
+    playersInfo["player1"].displayName = document.getElementById("player1").value;
+    playersInfo["player2"].displayName = document.getElementById("player2").value;
 
-// Event Listeners for Player Name Preferences
-player1Input.addEventListener('change', () => { player1Input.value !== (null || undefined) ? playersInfo["player1"].displayName = player1Input.value : "Player 1"; });
-
-player2Input.addEventListener('change', () => { player2Input.value !== (null || undefined) ? playersInfo["player2"].displayName = player2Input.value : "Player 2"; });
-
-function choose() {
     // PlayerInfo Updation
     for (i in playersInfo) {
         i == "player1" ? playersInfo[i].sign = player1Sign.innerText : playersInfo[i].sign;
         i == "player2" ? playersInfo[i].sign = player2Sign.innerText : playersInfo[i].sign;
     }
+
+    // Reset Player Entries
+    playersInfo["player1"].entries = [];
+    playersInfo["player2"].entries = [];
+
+    currTurn = "player1"
+
+    choose();
+}
+
+
+function choose() {
 
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "block";
@@ -42,23 +49,17 @@ function choose() {
     document.getElementById("playAgain").style.display = "none";
 
     for (let i in inputElements) {
-        inputElements[i].value == ("" || undefined) ? inputElements[i].disabled = false : inputElements[i].disabled = false;
+        inputElements[i].value ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = "", inputElements[i].disabled = false);
     }
-
-    console.log(player1Input.value, " vs ", player2Input.value);
-
 
     gameOn();
 
     // Store current game preferences
     currGameChoice = playersInfo;
-    console.log("Choices at Start", currGameChoice);
 }
 
 function gameOn() {
     inputElements = document.getElementsByClassName("gameGrid");
-
-    console.log("Current Turn", currTurn);
 
     for (let i = 0; i < inputElements.length; i++) {
         if (inputElements[i].disabled == false) {
@@ -69,8 +70,6 @@ function gameOn() {
         }
     }
 }
-
-
 
 let winningScenarios = [
     [0, 5, 8],
@@ -104,14 +103,11 @@ let playersInfo = {
 
 
 function startGame(val) {
-    console.log("Start Game")
 
     if (currTurn == "player1" && !((playersInfo["player2"].entries).includes(val))) {
         gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo["player1"].sign}" disabled="true">`;
         playersInfo["player1"].entries.push(val);
-        console.log("Player 1 Entries", playersInfo["player1"].entries);
         checkResult("player1");
-        console.log("Current Turn", currTurn)
         currTurn = "player2";
         return;
     }
@@ -119,9 +115,7 @@ function startGame(val) {
     else if (currTurn == "player2" && !((playersInfo["player1"].entries).includes(val))) {
         gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo["player2"].sign}" disabled="true">`;
         playersInfo["player2"].entries.push(val);
-        console.log("Player 2 Entries", playersInfo["player2"].entries);
         checkResult("player2");
-        console.log("Current Turn", currTurn)
         currTurn = "player1";
         return;
     }
@@ -132,9 +126,6 @@ function startGame(val) {
 function checkResult(ele) {
     for (let i in winningScenarios) {
         if (winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == true) {
-            console.log(playersInfo[ele].entries)
-            console.log("Winning Scenario");
-            console.log(playersInfo[ele])
 
             document.getElementById("winnerMsg").innerText = playersInfo[ele].displayName + " Wins";
             winMsgToast.show();
@@ -175,7 +166,6 @@ function restartGame() {
 
     playersInfo = currGameChoice;
     currTurn = "player1"
-    console.log("Choices after Restart", currGameChoice);
 
     // Reset Player Entries
     playersInfo["player1"].entries = [];
