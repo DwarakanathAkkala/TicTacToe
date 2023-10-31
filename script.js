@@ -62,7 +62,6 @@ function choose() {
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "block";
     document.getElementById("changePrefBtn").style.display = "block";
-    document.getElementById("playAgain").style.display = "none";
 
     for (let i in inputElements) {
         inputElements[i].value ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = "", inputElements[i].disabled = false);
@@ -182,7 +181,6 @@ function restartGame() {
     document.getElementById("playGameBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "none";
     document.getElementById("changePrefBtn").style.display = "block";
-    document.getElementById("playAgain").style.display = "block";
 
     playersInfo = currGameChoice;
     currTurn = "player1"
@@ -194,6 +192,8 @@ function restartGame() {
     for (let i in inputElements) {
         inputElements[i].value == ("" || undefined) ? (inputElements[i].value = "", inputElements[i].disabled = true) : (inputElements[i].value = " ", inputElements[i].disabled = true);
     }
+
+    choose();
 }
 
 function returnMainMenu() {
