@@ -1,11 +1,29 @@
 {
   "dependencies": {
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
     "socket.io": "^4.7.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "scripts":{
-    "devStart": "nodemon server.js"
-  }
+  "scripts": {
+    "devStart": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "name": "tictactoe",
+  "description": "",
+  "version": "1.0.0",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DwarakanathAkkala/TicTacToe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DwarakanathAkkala/TicTacToe/issues"
+  },
+  "homepage": "https://github.com/DwarakanathAkkala/TicTacToe#readme"
 }
