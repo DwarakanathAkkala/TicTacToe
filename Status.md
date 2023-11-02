@@ -38,3 +38,4 @@ To Do
 1. Choosing preferences by user --> Done
 2. Alerts if any player wins the game. --> Done
 3. Reset Player Sign after reset button is clicked. --> Done.
+4. Let the user know whos's turn it is.
