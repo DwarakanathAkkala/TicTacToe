@@ -221,10 +221,10 @@ function searchPlayer() {
         let oppName;
         let value;
 
-        const foundObj = allPlayersArray.find(obj => obj.p1Obj.p1Name == `${name}` || obj.p2Obj.p2Name == `${name}`)
+        const foundObj = allPlayersArray.find(obj => obj.player1.displayName == `${name}` || obj.player2.displayName == `${name}`)
 
-        foundObj.p1Obj.p1Name == `${name}` ? oppName = foundObj.p2Obj.p2Name : oppName = foundObj.p1Obj.p1Name;
-        foundObj.p1Obj.p1Name == `${name}` ? value = foundObj.p2Obj.p2Value : value = foundObj.p1Obj.p1Value;
+        foundObj.player1.displayName == `${name}` ? oppName = foundObj.player2.displayName : oppName = foundObj.player1.displayName;
+        foundObj.player1.displayName == `${name}` ? value = foundObj.player2.sign : value = foundObj.player1.sign;
 
         console.log("Opp Name", oppName);
         console.log("Value", value);
