@@ -202,3 +202,32 @@ function returnMainMenu() {
     document.getElementById("changePrefBtn").style.display = "none";
 }
 
+
+
+
+// Online Mode
+function searchPlayer() {
+
+    console.log("Search Player Func")
+    let name = document.getElementById("yourName").value;
+
+    socket.emit("find", { name: name });
+
+    socket.on('find', (e) => {
+        console.log("Socket IO Func")
+        let allPlayersArray = e.allPlayers
+        console.log(allPlayersArray)
+
+        let oppName;
+        let value;
+
+        const foundObj = allPlayersArray.find(obj => obj.p1Obj.p1Name == `${name}` || obj.p2Obj.p2Name == `${name}`)
+
+        foundObj.p1Obj.p1Name == `${name}` ? oppName = foundObj.p2Obj.p2Name : oppName = foundObj.p1Obj.p1Name;
+        foundObj.p1Obj.p1Name == `${name}` ? value = foundObj.p2Obj.p2Value : value = foundObj.p1Obj.p1Value;
+
+        console.log("Opp Name", oppName);
+        console.log("Value", value);
+
+    })
+}

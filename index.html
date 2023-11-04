@@ -37,8 +37,18 @@
     </header>
 
     <main>
-        <div class="container">
-            <table class="table text-center mt-5" id="gameGrid">
+
+        <div class="container" id="onlineMode">
+            <div class="row">
+
+                <p id="oppNameCont">Opponent:  <span id="oppName"></span></p>
+                <input id="yourName" type="text" value="" placeholder="Enter your Name">
+                <button value="Dwarak" onclick="searchPlayer()">Play</button>
+            </div>
+        </div>
+
+        <div class="container" id="localMode">
+            <table class="table text-center mt-5">
                 <tr>
                     <td id="cell1"><input class="gameGrid" type="text" size="1" value="" disabled></td>
                     <td id="cell2"><input class="gameGrid" type="text" size="1" value="" disabled></td>
