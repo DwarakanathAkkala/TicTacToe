@@ -40,6 +40,7 @@
 
         <div class="container" id="onlineMode">
 
+            <p>You are playing as: <span id="user"></span></p>
             <table class="table text-center mt-5">
                 <tr>
                     <td id="cell1"><input class="gameGrid" type="text" size="1" value="" disabled></td>
@@ -59,8 +60,7 @@
             </table>
 
             <div class="row">
-                <p id="oppNameCont">Opponent:  <span id="oppName"></span></p>
-                <button type="button" class="btn btn-primary" id="onlinePlay" data-bs-toggle="modal" data-bs-target="#onlineGameModal">Enter Preferences0</button>
+                <button type="button" class="btn btn-primary" id="onlinePlay" data-bs-toggle="modal" data-bs-target="#onlineGameModal">Enter Preferences</button>
             </div>
 
             <!-- Modal -->
@@ -71,13 +71,13 @@
                       <div class="modal-body">
                           <div class="row">
                               <div class="col-4 prefCol">
-                                  <input type="text" class="form-control" id="yourName" name="player1" value="Player 1" placeholder="Player 1" aria-label="Player 1">
+                                  <input type="text" class="form-control" id="yourName" name="player1" placeholder="Player 1" aria-label="Player 1">
                               </div>
                           </div>
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Search for Players...</button>
+                          <button type="button" class="btn btn-primary" id="findPlayer"  data-bs-dismiss="modal">Search for Players...</button>
                       </div>
                   </div>
                 </div>
