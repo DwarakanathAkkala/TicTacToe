@@ -14,6 +14,10 @@ h1 {
     display: none;
 }
 
+#signField, #yourField, #oppField {
+    display: none;
+}
+
 table {
     max-width: 800px;
     table-layout: fixed;
