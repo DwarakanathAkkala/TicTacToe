@@ -39,12 +39,49 @@
     <main>
 
         <div class="container" id="onlineMode">
-            <div class="row">
 
+            <table class="table text-center mt-5">
+                <tr>
+                    <td id="cell1"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell2"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell3"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                </tr>
+                <tr>
+                    <td id="cell4"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell5"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell6"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                </tr>
+                <tr>
+                    <td id="cell7"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell8"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell9"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                </tr>
+            </table>
+
+            <div class="row">
                 <p id="oppNameCont">Opponent:  <span id="oppName"></span></p>
-                <input id="yourName" type="text" value="" placeholder="Enter your Name">
-                <button value="Dwarak" onclick="searchPlayer()">Play</button>
+                <button type="button" class="btn btn-primary" id="onlinePlay" data-bs-toggle="modal" data-bs-target="#onlineGameModal">Enter Preferences0</button>
             </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="onlineGameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                      <div class="modal-header">Game Preferences</div>
+                      <div class="modal-body">
+                          <div class="row">
+                              <div class="col-4 prefCol">
+                                  <input type="text" class="form-control" id="yourName" name="player1" value="Player 1" placeholder="Player 1" aria-label="Player 1">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Search for Players...</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
         </div>
 
         <div class="container" id="localMode">
@@ -68,7 +105,14 @@
 
             <div class="text-center mt-5" >
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" id="playGameBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Play Game</button>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" id="playGameBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Offline Mode</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" id="onlinePlayGameBtn">Online Mode</button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col" id="changePrefBtn" style="display: none;">
                         <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#preferConfirmModal">Change Preferences</button>
@@ -130,7 +174,8 @@
     </main>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
+    <script src="/js/onlineGame.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();

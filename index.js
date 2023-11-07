@@ -24,23 +24,24 @@ io.on("connection", (socket) => {
             namesArray.push(e.name);
 
             if (namesArray.length >= 2) {
-                let player1 = {
+                let p1 = {
                     displayName: namesArray[0],
                     sign: "X",
-                    entries: "",
+                    entries: [],
                     move: ""
                 }
 
-                let player2 = {
+                let p2 = {
                     displayName: namesArray[1],
                     sign: "O",
-                    entries: "",
+                    entries: [],
                     move: ""
                 }
 
                 let obj = {
-                    player1,
-                    player2
+                    player1: p1,
+                    player2: p2,
+                    sum: 1
                 }
 
                 playingArray.push(obj);
@@ -48,8 +49,31 @@ io.on("connection", (socket) => {
                 namesArray.splice(0, 2) // Delete two names who started playing.
 
                 io.emit("find", { allPlayers: playingArray })
+
             }
         }
+    })
+
+
+    socket.on('playing', (e) => {
+        console.log(e);
+        if (e.currTurn == "player1") {
+            let objToChange = playingArray.find(obj => obj.player1.displayName === e.name)
+            console.log("Object Change", objToChange)
+            objToChange["player1"].move = e.id;
+            console.log("Object after Change", objToChange)
+            objToChange.sum++;
+            io.emit('playing', { allPlayers: playingArray })
+
+        }
+        else if (e.currTurn == "player2") {
+            let objToChange = playingArray.find(obj => obj.player2.displayName === e.name)
+            console.log("Object Change", objToChange)
+            objToChange.player2.move = e.id;
+            objToChange.sum++;
+        }
+
+        io.emit('playing', { allPlayers: playingArray })
     })
 })
 
