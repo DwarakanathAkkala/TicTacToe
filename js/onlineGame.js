@@ -64,8 +64,34 @@ document.querySelectorAll(".gameGrid").forEach(ele => {
 
     })
 
-})
+});
 
+function winCheck(name, sum) {
+    // Get all grid cell values
+    document.getElementById("pos1").value == '' ? c1 = "a" : c1 = document.getElementById("pos1").value;
+    document.getElementById("pos2").value == '' ? c2 = "b" : c2 = document.getElementById("pos2").value;
+    document.getElementById("pos3").value == '' ? c3 = "c" : c3 = document.getElementById("pos3").value;
+    document.getElementById("pos4").value == '' ? c4 = "d" : c4 = document.getElementById("pos4").value;
+    document.getElementById("pos5").value == '' ? c5 = "e" : c5 = document.getElementById("pos5").value;
+    document.getElementById("pos6").value == '' ? c6 = "f" : c6 = document.getElementById("pos6").value;
+    document.getElementById("pos7").value == '' ? c7 = "g" : c7 = document.getElementById("pos7").value;
+    document.getElementById("pos8").value == '' ? c8 = "h" : c8 = document.getElementById("pos8").value;
+    document.getElementById("pos9").value == '' ? c9 = "i" : c9 = document.getElementById("pos9").value;
+
+    // Game Logic
+    if ((c1 == c2 && c2 == c3) ||
+        (c4 == c5 && c5 == c6) ||
+        (c7 == c8 && c8 == c9) ||
+        (c1 == c4 && c4 == c7) ||
+        (c2 == c5 && c5 == c8) ||
+        (c3 == c6 && c6 == c9) ||
+        (c1 == c5 && c5 == c9) ||
+        (c3 == c5 && c5 == c7)) {
+        console.log(name, " Wins")
+        socket.emit("gameOver", { name: name });
+    }
+
+}
 
 
 

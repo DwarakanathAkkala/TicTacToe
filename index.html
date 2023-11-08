@@ -199,13 +199,13 @@
             console.log("Entered X Change")
             document.getElementById(p1id).value = "X"
             document.getElementById(p1id).disabled = true
-            //document.getElementById(p1id).style.color = "black"
         }
         if (p2id != '') {
             document.getElementById(p2id).value = "O"
             document.getElementById(p2id).disabled = true
-            // document.getElementById(p2id).style.color = "black"
         }
+
+        winCheck(userName, foundObject.sum);
     });
     </script>
 </body>
