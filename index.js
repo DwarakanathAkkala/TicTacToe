@@ -20,6 +20,7 @@ let playingArray = [];
 
 io.on("connection", (socket) => {
     socket.on("find", (e) => {
+        playingArray = [];
         if (e.name != null) {
             namesArray.push(e.name);
 
@@ -57,19 +58,19 @@ io.on("connection", (socket) => {
 
     socket.on('playing', (e) => {
         console.log(e);
-        if (e.currTurn == "player1") {
+        if (e.sign == "X") {
             let objToChange = playingArray.find(obj => obj.player1.displayName === e.name)
             console.log("Object Change", objToChange)
-            objToChange["player1"].move = e.id;
-            console.log("Object after Change", objToChange)
+            objToChange["player1"].move = e.move;
+            console.log("X object changed", objToChange)
             objToChange.sum++;
-            io.emit('playing', { allPlayers: playingArray })
-
         }
-        else if (e.currTurn == "player2") {
+
+        else if (e.sign == "O") {
             let objToChange = playingArray.find(obj => obj.player2.displayName === e.name)
             console.log("Object Change", objToChange)
-            objToChange.player2.move = e.id;
+            objToChange.player2.move = e.move;
+            console.log("O object Changed ", objToChange)
             objToChange.sum++;
         }
 

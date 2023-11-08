@@ -14,7 +14,7 @@ h1 {
     display: none;
 }
 
-#signField, #yourField, #oppField {
+#currTurn, #signField, #yourField, #oppField {
     display: none;
 }
 

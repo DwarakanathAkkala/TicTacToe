@@ -43,21 +43,22 @@
             <p id="yourField">You are playing as: <span id="user"></span> </p>
             <p id="signField">Sign <span id="sign"></span></p>
             <p id="oppField">Opponent Name <span id="oppName"></span></p>
+            <p id="currTurn">X's Turn</p>
             <table class="table text-center mt-5">
                 <tr>
-                    <td id="cell1"><input class="gameGrid" type="text" size="1" value="" disabled></td>
-                    <td id="cell2"><input class="gameGrid" type="text" size="1" value="" disabled></td>
-                    <td id="cell3"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell1"><input id="pos1" class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell2"><input id="pos2" class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell3"><input id="pos3" class="gameGrid" type="text" size="1" value="" disabled></td>
                 </tr>
                 <tr>
-                    <td id="cell4"><input class="gameGrid" type="text" size="1" value="" disabled></td>
-                    <td id="cell5"><input class="gameGrid" type="text" size="1" value="" disabled></td>
-                    <td id="cell6"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell4"><input id="pos4" class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell5"><input id="pos5" class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell6"><input id="pos6" class="gameGrid" type="text" size="1" value="" disabled></td>
                 </tr>
                 <tr>
-                    <td id="cell7"><input class="gameGrid" type="text" size="1" value="" disabled></td>
-                    <td id="cell8"><input class="gameGrid" type="text" size="1" value="" disabled></td>
-                    <td id="cell9"><input class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell7"><input id="pos7" class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell8"><input id="pos8" class="gameGrid" type="text" size="1" value="" disabled></td>
+                    <td id="cell9"><input id="pos9" class="gameGrid" type="text" size="1" value="" disabled></td>
                 </tr>
             </table>
 
@@ -181,6 +182,31 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+        socket.on('playing', (e) => {
+        const foundObject = (e.allPlayers).find(obj => obj.player1.displayName == userName || obj.player2.displayName == userName);
+        console.log("Found Match Object", foundObject)
+        p1id = foundObject.player1.move
+        p2id = foundObject.player2.move
+
+        if ((foundObject.sum) % 2 == 0) {
+            document.getElementById("currTurn").innerText = "O's Turn"
+        }
+        else {
+            document.getElementById("currTurn").innerText = "X's Turn"
+        }
+
+        if (p1id != '') {
+            console.log("Entered X Change")
+            document.getElementById(p1id).value = "X"
+            document.getElementById(p1id).disabled = true
+            //document.getElementById(p1id).style.color = "black"
+        }
+        if (p2id != '') {
+            document.getElementById(p2id).value = "O"
+            document.getElementById(p2id).disabled = true
+            // document.getElementById(p2id).style.color = "black"
+        }
+    });
     </script>
 </body>
 </html> 

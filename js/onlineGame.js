@@ -6,8 +6,6 @@ document.getElementById("onlinePlayGameBtn").addEventListener("click", () => {
 })
 
 let userName;
-
-
 document.getElementById('findPlayer').addEventListener("click", function () {
     userName = document.getElementById("yourName").value;
 
@@ -24,6 +22,7 @@ document.getElementById('findPlayer').addEventListener("click", function () {
             document.getElementById("yourField").style.display = "block";
             document.getElementById("user").innerText = userName;
             document.getElementById("oppField").style.display = "block";
+            document.getElementById("currTurn").style.display = "block";
         }
 
         let oppName;
@@ -37,9 +36,36 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         document.getElementById("signField").style.display = "block";
         document.getElementById("sign").innerText = sign;
         document.getElementById("oppName").innerText = oppName;
+
+
+        let inputElements = document.getElementsByClassName("gameGrid");
+        for (let i in inputElements) {
+            inputElements[i].value ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = "", inputElements[i].disabled = false);
+        }
     })
 
 });
+
+
+document.querySelectorAll(".gameGrid").forEach(ele => {
+    ele.disabled = "false";
+
+    ele.addEventListener("click", () => {
+        console.log("User Clicked ", ele.id)
+        let sign = document.getElementById("sign").innerText;
+        ele.innerText = sign;
+
+        socket.emit("playing", {
+            sign: sign,
+            move: ele.id,
+            name: userName
+        })
+
+
+    })
+
+})
+
 
 
 
