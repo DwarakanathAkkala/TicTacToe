@@ -91,6 +91,11 @@ function winCheck(name, sum) {
         socket.emit("gameOver", { name: name });
     }
 
+    else if (sum == 10) {
+        console.log("Draw");
+        socket.emit("gameOver", { name: name });
+    }
+
 }
 
 
