@@ -6,6 +6,7 @@ document.getElementById("onlinePlayGameBtn").addEventListener("click", () => {
 })
 
 let userName;
+
 document.getElementById('findPlayer').addEventListener("click", function () {
     userName = document.getElementById("yourName").value;
 
@@ -22,7 +23,8 @@ document.getElementById('findPlayer').addEventListener("click", function () {
             document.getElementById("yourField").style.display = "block";
             document.getElementById("user").innerText = userName;
             document.getElementById("oppField").style.display = "block";
-            document.getElementById("currTurn").style.display = "block";
+            document.getElementById("currTurn").innerText = "X";
+            document.getElementById("currTurnField").style.display = "block";
         }
 
         let oppName;
@@ -53,14 +55,19 @@ document.querySelectorAll(".gameGrid").forEach(ele => {
     ele.addEventListener("click", () => {
         console.log("User Clicked ", ele.id)
         let sign = document.getElementById("sign").innerText;
+        let currPlayingTurn = document.getElementById("currTurn").innerText;
+
         ele.innerText = sign;
+        ele.innerText = currPlayingTurn;
 
-        socket.emit("playing", {
-            sign: sign,
-            move: ele.id,
-            name: userName
-        })
-
+        // Enable Changes on click if and only if it is User's Turn
+        if (sign == currPlayingTurn) {
+            socket.emit("playing", {
+                sign: sign,
+                move: ele.id,
+                name: userName
+            });
+        }
 
     })
 

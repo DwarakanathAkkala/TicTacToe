@@ -43,7 +43,7 @@
             <p id="yourField">You are playing as: <span id="user"></span> </p>
             <p id="signField">Sign <span id="sign"></span></p>
             <p id="oppField">Opponent Name <span id="oppName"></span></p>
-            <p id="currTurn">X's Turn</p>
+            <p id="currTurnField">Current Turn <span id="currTurn"></span></p>
             <table class="table text-center mt-5">
                 <tr>
                     <td id="cell1"><input id="pos1" class="gameGrid" type="text" size="1" value="" disabled></td>
@@ -189,10 +189,10 @@
         p2id = foundObject.player2.move
 
         if ((foundObject.sum) % 2 == 0) {
-            document.getElementById("currTurn").innerText = "O's Turn"
+            document.getElementById("currTurn").innerText = "O"
         }
         else {
-            document.getElementById("currTurn").innerText = "X's Turn"
+            document.getElementById("currTurn").innerText = "X"
         }
 
         if (p1id != '') {
