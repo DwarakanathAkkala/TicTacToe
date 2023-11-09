@@ -63,28 +63,62 @@
             </table>
 
             <div class="row">
-                <button type="button" class="btn btn-primary" id="onlinePlay" data-bs-toggle="modal" data-bs-target="#onlineGameModal">Enter Preferences</button>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" id="onlinePlay" data-bs-toggle="modal" data-bs-target="#joinGameModal">Online Player</button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" id="onlinePlay" data-bs-toggle="modal" data-bs-target="#createGameModal">Friend</button>
+                </div>
             </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="onlineGameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Game with Online Player Modal -->
+            <div class="modal fade" id="joinGameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                       <div class="modal-header">Game Preferences</div>
                       <div class="modal-body">
-                          <div class="row">
-                              <div class="col-4 prefCol">
-                                  <input type="text" class="form-control" id="yourName" name="player1" placeholder="Player 1" aria-label="Player 1">
-                              </div>
-                          </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="playerName">Your Name</label>
+                            </div>
+                            <div class="col prefCol">
+                                <input type="text" class="form-control" id="yourName" name="playerName" placeholder="Don't let name to be 'Player'" aria-label="Player 1">
+                            </div>
+                        </div>
+                          
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" id="findPlayer"  data-bs-dismiss="modal">Search for Players...</button>
+                          <button type="button" class="btn btn-primary" id="findPlayer" data-bs-dismiss="modal">Search for Players...</button>
                       </div>
                   </div>
                 </div>
-              </div>
+            </div>
+
+            <!-- Game with a Friend Modal -->
+            <div class="modal fade" id="createGameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">Game Preferences</div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="playerName">Your Name</label>
+                                </div>
+                                <div class="col prefCol">
+                                    <input type="text" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" aria-label="Player 1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Create Game</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="container" id="localMode">
