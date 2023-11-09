@@ -94,13 +94,15 @@ function winCheck(name, sum) {
         (c3 == c6 && c6 == c9) ||
         (c1 == c5 && c5 == c9) ||
         (c3 == c5 && c5 == c7)) {
-        console.log(name, " Wins")
+
         socket.emit("gameOver", { name: name });
+        document.getElementById("winnerMsg").innerText = name + " Wins";
+        winMsgToast.show();
     }
 
     else if (sum == 10) {
-        console.log("Draw");
         socket.emit("gameOver", { name: name });
+        drawMsgToast.show();
     }
 
 }
