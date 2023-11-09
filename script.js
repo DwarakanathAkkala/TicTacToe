@@ -38,6 +38,9 @@ let drawMsgToast = new bootstrap.Toast(drawMsgElement, {
 });
 
 function changePreferences() {
+
+    document.getElementById("onlinePlayGameBtn").style.display = "none";
+
     playersInfo["player1"].displayName = document.getElementById("player1").value;
     playersInfo["player2"].displayName = document.getElementById("player2").value;
 
