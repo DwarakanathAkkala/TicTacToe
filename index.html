@@ -32,6 +32,7 @@
         <div class="container mt-5">
             <div class="row text-center">
                 <h1>Tic Tac Toe</h1>
+                
             </div>
         </div>    
     </header>
@@ -39,11 +40,12 @@
     <main>
 
         <div class="container" id="onlineMode">
-
-            <p id="yourField">You are playing as: <span id="user"></span> </p>
-            <p id="signField">Sign <span id="sign"></span></p>
-            <p id="oppField">Opponent Name <span id="oppName"></span></p>
-            <p id="currTurnField">Current Turn <span id="currTurn"></span></p>
+            <br/><br>
+            <h4 id="playerNames" class="text-center"></h4>
+            <br/>
+            <h6 id="currTurnField" class="text-center"></h6>
+            <span id="sign"></span>
+            <span id="currTurn"></span>
             <table class="table text-center mt-5">
                 <tr>
                     <td id="cell1"><input id="pos1" class="gameGrid" type="text" size="1" value="" disabled></td>
@@ -223,10 +225,12 @@
         p2id = foundObject.player2.move
 
         if ((foundObject.sum) % 2 == 0) {
-            document.getElementById("currTurn").innerText = "O"
+            document.getElementById("currTurn").innerText = "O";
+            document.getElementById("currTurnField").innerText = "It's " + foundObject.player2.displayName + " turn";
         }
         else {
-            document.getElementById("currTurn").innerText = "X"
+            document.getElementById("currTurn").innerText = "X";
+            document.getElementById("currTurnField").innerText = "It's " + foundObject.player1.displayName + " turn";
         }
 
         if (p1id != '') {

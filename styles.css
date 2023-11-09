@@ -14,7 +14,7 @@ h1 {
     display: none;
 }
 
-#currTurnField, #signField, #yourField, #oppField {
+#currTurn, #sign, #playerNames, #offlinePlayers {
     display: none;
 }
 

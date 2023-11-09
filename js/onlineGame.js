@@ -40,11 +40,7 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         console.log("Players Info", allPlayersArray)
 
         if (userName != "") {
-            document.getElementById("yourField").style.display = "block";
-            document.getElementById("user").innerText = userName;
-            document.getElementById("oppField").style.display = "block";
             document.getElementById("currTurn").innerText = "X";
-            document.getElementById("currTurnField").style.display = "block";
         }
 
         let oppName;
@@ -55,11 +51,13 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         foundObj.player1.displayName == userName ? oppName = foundObj.player2.displayName : oppName = foundObj.player1.displayName;
         foundObj.player1.displayName == userName ? sign = foundObj.player1.sign : sign = foundObj.player2.sign;
 
-        document.getElementById("signField").style.display = "block";
+        //document.getElementById("signField").style.display = "block";
         document.getElementById("sign").innerText = sign;
-        document.getElementById("oppName").innerText = oppName;
-
+        document.getElementById("playerNames").innerText = userName + " vs " + oppName;
+        document.getElementById("playerNames").style.display = "block";
         document.getElementById("gameOnMsg").innerText = "Don't let " + oppName + " cross the line";
+        document.getElementById("currTurnField").innerText = "It's " + foundObj.player1.displayName + " turn";
+
         gameOnToast.show();
 
 
