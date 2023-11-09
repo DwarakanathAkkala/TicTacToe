@@ -5,7 +5,27 @@ document.getElementById("onlinePlayGameBtn").addEventListener("click", () => {
     document.getElementById("localMode").style.display = "none";
 })
 
+
+container.setAttribute("class", "container");
+container.innerHTML = `
+    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
+        <div id="gameOnToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mt-auto">The Game is ON!!</strong>
+            </div>
+            <div class="toast-body bg-danger text-white" id="gameOnMsg">
+                
+            </div>
+        </div>
+    </div>
+`;
+
 let userName;
+
+let gameOnElement = document.getElementById("gameOnToast");
+let gameOnToast = new bootstrap.Toast(gameOnElement, {
+    delay: 2500
+});
 
 document.getElementById('findPlayer').addEventListener("click", function () {
     userName = document.getElementById("yourName").value;
@@ -38,6 +58,9 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         document.getElementById("signField").style.display = "block";
         document.getElementById("sign").innerText = sign;
         document.getElementById("oppName").innerText = oppName;
+
+        document.getElementById("gameOnMsg").innerText = "Don't let " + oppName + " cross the line";
+        gameOnToast.show();
 
 
         let inputElements = document.getElementsByClassName("gameGrid");
