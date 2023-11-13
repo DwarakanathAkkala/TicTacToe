@@ -2,12 +2,11 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
-
+const chance = require('chance').Chance();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-
 
 const port = process.env.PORT || 3000;
 // const publicDirectoryPath = path.join(__dirname, '/public');
@@ -17,6 +16,8 @@ app.use(express.static(path.resolve("")));
 
 let namesArray = [];
 let playingArray = [];
+let customRoomArray;
+const rooms = io.of("/").adapter.rooms;
 
 io.on("connection", (socket) => {
     socket.on("find", (e) => {
@@ -76,6 +77,23 @@ io.on("connection", (socket) => {
 
         io.emit('playing', { allPlayers: playingArray })
     })
+
+    io.of("/").adapter.on("create-room", (roomCode) => {
+        console.log(`room ${roomCode} was created`);
+    });
+
+
+    socket.on('join', (e) => {
+        let roomCode = chance.country({ full: true });
+        let createdRoomUser = e.roomCreateUserName;
+        console.log(roomCode);
+        console.log(e)
+        io.of("/").adapter.on("join-room", (roomCode) => {
+            console.log(`socket ${createdRoomUser} has joined room ${roomCode}`);
+        });
+        socket.join(roomCode);
+    })
+
 })
 
 app.get("/", (req, res) => {

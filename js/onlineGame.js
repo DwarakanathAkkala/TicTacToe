@@ -69,6 +69,13 @@ document.getElementById('findPlayer').addEventListener("click", function () {
 
 });
 
+function createGame() {
+    console.log("Online Game Creation");
+
+    let roomCreateUserName = document.getElementById("roomUserName").value;
+
+    socket.emit("join", { roomCreateUserName: roomCreateUserName })
+}
 
 document.querySelectorAll(".gameGrid").forEach(ele => {
     ele.disabled = "false";

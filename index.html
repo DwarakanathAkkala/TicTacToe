@@ -109,13 +109,13 @@
                                     <label for="playerName">Your Name</label>
                                 </div>
                                 <div class="col prefCol">
-                                    <input type="text" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" aria-label="Player 1">
+                                    <input type="text" id="roomUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Create Game</button>
+                            <button type="button" class="btn btn-primary" onclick="createGame()"  data-bs-dismiss="modal">Create Game</button>
                         </div>
                     </div>
                 </div>
@@ -245,6 +245,10 @@
 
         winCheck(userName, foundObject.sum);
     });
+
+    socket.on('join', (e) => {
+        console.log(e.roomCode);
+    })
     </script>
 </body>
 </html> 
