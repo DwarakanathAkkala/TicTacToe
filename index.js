@@ -3,6 +3,12 @@ const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
 const chance = require('chance').Chance();
+const {
+    userJoin,
+    getCurrentUser,
+    userLeave,
+    getRoomUsers,
+} = require("./js/users");
 
 const app = express();
 const server = http.createServer(app);
@@ -16,7 +22,7 @@ app.use(express.static(path.resolve("")));
 
 let namesArray = [];
 let playingArray = [];
-let customRoomArray;
+let customRoomArray = [];
 const rooms = io.of("/").adapter.rooms;
 
 io.on("connection", (socket) => {
@@ -82,17 +88,87 @@ io.on("connection", (socket) => {
         console.log(`room ${roomCode} was created`);
     });
 
+    socket.on("pivateRoom", ({ userName, room }) => {
 
-    socket.on('join', (e) => {
-        let roomCode = chance.country({ full: true });
-        let createdRoomUser = e.roomCreateUserName;
-        console.log(roomCode);
-        console.log(e)
-        io.of("/").adapter.on("join-room", (roomCode) => {
-            console.log(`socket ${createdRoomUser} has joined room ${roomCode}`);
+        // if (room != null || undefined)
+        room == (null || undefined) ? room = chance.country({ full: true }) : room;
+        const user = userJoin(socket.id, userName, room);
+
+        socket.join(user.room);
+
+        // Welcome current user
+        socket.emit("message", ("Welcome to ChatCord!"));
+
+        // Broadcast when a user connects
+        socket.broadcast
+            .to(user.room)
+            .emit(
+                `message ${user.userName} has joined the chat`
+            );
+
+        // Send users and room info
+        io.to(user.room).emit("roomUsers", {
+            room: user.room,
+            users: getRoomUsers(user.room),
         });
-        socket.join(roomCode);
-    })
+
+        let userslength = getRoomUsers(room).length;
+        console.log(userslength)
+
+
+        socket.on("disconnect", () => {
+            const user = userLeave(socket.id);
+
+            if (user) {
+                io.to(user.room).emit(
+                    "message",
+                    formatMessage(botName, `${user.userName} has left the chat`)
+                );
+
+                // Send users and room info
+                io.to(user.room).emit("roomUsers", {
+                    room: user.room,
+                    users: getRoomUsers(user.room),
+                });
+            }
+        });
+
+        if (userslength == 2) {
+            let roomUsers = getRoomUsers(user.room);
+            console.log("Current Room users", roomUsers)
+
+            io.to(user.room).emit("roomUsers", {
+                room: user.room,
+                users: getRoomUsers(user.room),
+            });
+
+            let friend1 = {
+                displayName: roomUsers[0].userName,
+                sign: "X",
+                entries: [],
+                move: ""
+            }
+
+            let friend2 = {
+                displayName: roomUsers[1].userName,
+                sign: "O",
+                entries: [],
+                move: ""
+            }
+
+            let obj = {
+                player1: friend1,
+                player2: friend2,
+                sum: 1
+            }
+
+            customRoomArray.push(obj);
+
+            io.to(user.room).emit('playingUsers', { roomPlayers: customRoomArray });
+        }
+
+
+    });
 
 })
 

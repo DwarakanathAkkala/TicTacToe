@@ -69,12 +69,38 @@ document.getElementById('findPlayer').addEventListener("click", function () {
 
 });
 
-function createGame() {
-    console.log("Online Game Creation");
+function createJoinGame(userName, roomCode) {
+    let roomCreateUserName;
+    let roomJoinUserName;
+    let roomJoinName;
 
-    let roomCreateUserName = document.getElementById("roomUserName").value;
+    console.log("User Name", userName, " and Room Code Entered", roomCode);
+    if (roomCode == null) {
+        roomCreateUserName = userName;
 
-    socket.emit("join", { roomCreateUserName: roomCreateUserName })
+        socket.emit("pivateRoom", { userName: roomCreateUserName });
+    }
+
+    else {
+        roomJoinUserName = document.getElementById("joiningUserName").value;
+        roomJoinName = document.getElementById("roomName").value;
+
+        socket.emit('pivateRoom', {
+            userName: roomJoinUserName,
+            room: roomJoinName
+        });
+    }
+
+    socket.on('roomUsers', ({ room, users }) => {
+        outputRoomName(room);
+        outputUsers(users);
+    });
+
+    socket.on('playingUsers', (e) => {
+        let roomPlayers = e.roomPlayers;
+        console.log("Room Player Joined", roomPlayers);
+    })
+
 }
 
 document.querySelectorAll(".gameGrid").forEach(ele => {
@@ -135,6 +161,13 @@ function winCheck(name, sum) {
 
 }
 
+function outputRoomName(room) {
+    console.log("Room Name: ", room)
+}
+
+function outputUsers(users) {
+    console.log("All Users in the Current Room", users);
+}
 
 
 

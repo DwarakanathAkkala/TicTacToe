@@ -124,7 +124,7 @@
                                         <input type="text" id="roomUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary" onclick="createGame()"  data-bs-dismiss="modal">Create Game</button>
+                                <button type="button" class="btn btn-primary" id="createGame" onclick="createJoinGame(document.getElementById('roomUserName').value, null)" data-bs-dismiss="modal">Create Game</button>
                               </div>
 
                               <div class="tab-pane" id="join" role="tabpanel" aria-labelledby="join-tab" tabindex="0">
@@ -133,7 +133,7 @@
                                         <label for="playerName">Your Name</label>
                                     </div>
                                     <div class="col prefCol">
-                                        <input type="text" id="roomUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
+                                        <input type="text" id="joiningUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
                                     </div>
                                 </div>
                                 <div class="row mt-3 mb-3">
@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Join Game</button>
+                                <button type="button" class="btn btn-primary" id="joinGame" onclick="createJoinGame(document.getElementById('joiningUserName').value, document.getElementById('roomName').value)" data-bs-dismiss="modal">Join Game</button>
                               </div>
 
                             </div>
@@ -279,9 +279,13 @@
         winCheck(userName, foundObject.sum);
     });
 
-    socket.on('join', (e) => {
-        console.log(e.roomCode);
+    socket.on('privateRoom', (e) => {
+        console.log(e);
     })
+
+    // socket.on('join', (e) => {
+    //     console.log(e)
+    // })
     </script>
 </body>
 </html> 
