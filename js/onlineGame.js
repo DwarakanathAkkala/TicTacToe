@@ -162,6 +162,9 @@ function createJoinGame(playerName, roomCode) {
 
     })
 
+    socket.on('message', (e) => {
+        console.log(e);
+    })
 }
 
 document.querySelectorAll(".gameGrid").forEach(ele => {

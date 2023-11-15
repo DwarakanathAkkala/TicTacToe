@@ -97,12 +97,20 @@ io.on("connection", (socket) => {
     });
 
     socket.on("pivateRoom", ({ userName, room }) => {
+        let userslength = getRoomUsers(room).length;
+        console.log(userslength)
 
         // if (room != null || undefined)
         room == (null || undefined) ? room = chance.country({ full: true }) : room;
         const user = userJoin(socket.id, userName, room);
 
-        socket.join(user.room);
+        if (userslength < 2) {
+            socket.join(user.room)
+        }
+        else {
+            socket.emit('message', "Another player already joined the game");
+            console.log("Room is full");
+        }
 
         // Welcome current user
         socket.emit("message", ("Welcome to ChatCord!"));
@@ -119,10 +127,6 @@ io.on("connection", (socket) => {
             room: user.room,
             users: getRoomUsers(user.room),
         });
-
-        let userslength = getRoomUsers(room).length;
-        console.log(userslength)
-
 
         socket.on("disconnect", () => {
             const user = userLeave(socket.id);
@@ -141,7 +145,10 @@ io.on("connection", (socket) => {
             }
         });
 
-        if (userslength == 2) {
+        let playingUsers = getRoomUsers(user.room);
+
+
+        if (playingUsers.length == 2) {
             let roomUsers = getRoomUsers(user.room);
             console.log("Current Room users", roomUsers)
 
