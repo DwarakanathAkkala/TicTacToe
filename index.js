@@ -19,6 +19,14 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(path.resolve("")));
 
+app.get("/", (req, res) => {
+    return res.sendFile("index.html")
+})
+
+server.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+});
+
 
 let namesArray = [];
 let playingArray = [];
@@ -172,10 +180,3 @@ io.on("connection", (socket) => {
 
 })
 
-app.get("/", (req, res) => {
-    return res.sendFile("index.html")
-})
-
-server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
