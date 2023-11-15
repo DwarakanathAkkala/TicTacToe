@@ -69,14 +69,16 @@ document.getElementById('findPlayer').addEventListener("click", function () {
 
 });
 
-function createJoinGame(userName, roomCode) {
+function createJoinGame(playerName, roomCode) {
     let roomCreateUserName;
     let roomJoinUserName;
     let roomJoinName;
 
-    console.log("User Name", userName, " and Room Code Entered", roomCode);
+    console.log("User Name", playerName, " and Room Code Entered", roomCode);
+    userName = playerName;
+    console.log("User Name VAlue", userName)
     if (roomCode == null) {
-        roomCreateUserName = userName;
+        roomCreateUserName = document.getElementById('roomUserName').value;
 
         socket.emit("pivateRoom", { userName: roomCreateUserName });
     }
@@ -97,8 +99,36 @@ function createJoinGame(userName, roomCode) {
     });
 
     socket.on('playingUsers', (e) => {
-        let roomPlayers = e.roomPlayers;
+        let roomPlayers = e.allPlayers;
         console.log("Room Player Joined", roomPlayers);
+
+        if (userName != "") {
+            document.getElementById("currTurn").innerText = "X";
+        }
+
+        let oppName;
+        let sign;
+
+        const roomPlayersObj = roomPlayers.find(obj => obj.player1.displayName == userName || obj.player2.displayName == userName)
+
+        roomPlayersObj.player1.displayName == userName ? oppName = roomPlayersObj.player2.displayName : oppName = roomPlayersObj.player1.displayName;
+        roomPlayersObj.player1.displayName == userName ? sign = roomPlayersObj.player1.sign : sign = roomPlayersObj.player2.sign;
+
+        //document.getElementById("signField").style.display = "block";
+        document.getElementById("sign").innerText = sign;
+        document.getElementById("playerNames").innerText = userName + " vs " + oppName;
+        document.getElementById("playerNames").style.display = "block";
+        document.getElementById("gameOnMsg").innerText = "Don't let " + oppName + " cross the line";
+        document.getElementById("currTurnField").innerText = "It's " + roomPlayersObj.player1.displayName + " turn";
+
+        gameOnToast.show();
+
+
+        let inputElements = document.getElementsByClassName("gameGrid");
+        for (let i in inputElements) {
+            inputElements[i].value ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = "", inputElements[i].disabled = false);
+        }
+
     })
 
 }
@@ -128,6 +158,7 @@ document.querySelectorAll(".gameGrid").forEach(ele => {
 });
 
 function winCheck(name, sum) {
+    console.log("Name in Check", name)
     // Get all grid cell values
     document.getElementById("pos1").value == '' ? c1 = "a" : c1 = document.getElementById("pos1").value;
     document.getElementById("pos2").value == '' ? c2 = "b" : c2 = document.getElementById("pos2").value;

@@ -162,9 +162,9 @@ io.on("connection", (socket) => {
                 sum: 1
             }
 
-            customRoomArray.push(obj);
+            playingArray.push(obj);
 
-            io.to(user.room).emit('playingUsers', { roomPlayers: customRoomArray });
+            io.to(user.room).emit('playingUsers', { allPlayers: playingArray });
         }
 
 
