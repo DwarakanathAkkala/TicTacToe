@@ -135,7 +135,7 @@
                                         <input type="text" id="roomUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary" id="createGame" onclick="createJoinGame(document.getElementById('roomUserName').value, null)" data-bs-dismiss="modal">Create Game</button>
+                                <button type="button" class="btn btn-primary" id="createGame" data-bs-toggle="modal" data-bs-target="#waitForPlayerModal" onclick="createJoinGame(document.getElementById('roomUserName').value, null)" data-bs-dismiss="modal">Create Game</button>
                               </div>
 
                               <div class="tab-pane" id="join" role="tabpanel" aria-labelledby="join-tab" tabindex="0">
@@ -159,6 +159,23 @@
                                 <button type="button" class="btn btn-primary" id="joinGame" onclick="createJoinGame(document.getElementById('joiningUserName').value, document.getElementById('roomName').value)" data-bs-dismiss="modal">Join Game</button>
                               </div>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wait for Player to Join Modal -->
+            <div class="modal fade" id="waitForPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header text-center" id="waitingPlayerText"><b>Waiting for Player to Join</b></div>
+                        <div class="modal-body">
+                            <div class="row" id="roomCodeDisplay"></div>
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border text-info" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
                     </div>

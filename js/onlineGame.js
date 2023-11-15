@@ -58,6 +58,9 @@ let roomDrawToast = new bootstrap.Toast(roomDrawElement, {
     delay: 2500
 });
 
+let waitForPlayerModal = new bootstrap.Modal(document.getElementById('waitForPlayerModal'));
+
+
 document.getElementById('findPlayer').addEventListener("click", function () {
     userName = document.getElementById("yourName").value;
 
@@ -129,8 +132,11 @@ function createJoinGame(playerName, roomCode) {
         outputUsers(users);
     });
 
+
+
     socket.on('playingUsers', (e) => {
 
+        waitForPlayerModal.hide();
         document.getElementById("joinGamePlay").style.display = "none";
         document.getElementById("createGamePlay").style.display = "none";
         document.getElementById("onlineMainMenu").style.display = "block";
@@ -232,7 +238,11 @@ function winCheck(name, sum) {
 }
 
 function outputRoomName(room) {
-    console.log("Room Name: ", room)
+    console.log("Room Name: ", room);
+    document.getElementById("roomCodeDisplay").innerHTML =
+        `<div class="text-center mb-3">Room Name <b id="waitingRoomText">${room}</b></div>
+        <div class="text-center mb-3">Share the Room Code with your friend to join the game.</div>
+    `
 }
 
 function outputUsers(users) {

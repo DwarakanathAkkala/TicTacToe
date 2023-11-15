@@ -18,6 +18,14 @@ h1 {
     display: none;
 }
 
+#waitingPlayerText {
+    color: #FF2E63;
+}
+
+#waitingRoomText {
+    color: #0dcaf0;
+}
+
 table {
     max-width: 800px;
     table-layout: fixed;
