@@ -5,7 +5,6 @@ document.getElementById("onlinePlayGameBtn").addEventListener("click", () => {
     document.getElementById("localMode").style.display = "none";
 })
 
-
 container.setAttribute("class", "container");
 container.innerHTML = `
     <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
@@ -18,12 +17,44 @@ container.innerHTML = `
             </div>
         </div>
     </div>
+
+    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
+        <div id="roomWinnerToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mt-auto">Hooray!!</strong>
+            </div>
+            <div class="toast-body bg-success text-white" id="winnerMsg">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
+        <div id="roomDrawToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mt-auto">It's a draw</strong>
+            </div>
+            <div class="toast-body bg-success text-white" id="drawMsg">
+                Looks like tough competetion! 
+            </div>
+        </div>
+    </div>
 `;
 
 let userName;
 
 let gameOnElement = document.getElementById("gameOnToast");
 let gameOnToast = new bootstrap.Toast(gameOnElement, {
+    delay: 2500
+});
+
+let roomWinElement = document.getElementById("roomWinnerToast");
+let roomWinToast = new bootstrap.Toast(roomWinElement, {
+    delay: 2500
+});
+
+let roomDrawElement = document.getElementById("roomDrawToast");
+let roomDrawToast = new bootstrap.Toast(roomDrawElement, {
     delay: 2500
 });
 
@@ -158,7 +189,6 @@ document.querySelectorAll(".gameGrid").forEach(ele => {
 });
 
 function winCheck(name, sum) {
-    console.log("Name in Check", name)
     // Get all grid cell values
     document.getElementById("pos1").value == '' ? c1 = "a" : c1 = document.getElementById("pos1").value;
     document.getElementById("pos2").value == '' ? c2 = "b" : c2 = document.getElementById("pos2").value;
@@ -182,12 +212,12 @@ function winCheck(name, sum) {
 
         socket.emit("gameOver", { name: name });
         document.getElementById("winnerMsg").innerText = name + " Wins";
-        winMsgToast.show();
+        roomWinToast.show();
     }
 
     else if (sum == 10) {
         socket.emit("gameOver", { name: name });
-        drawMsgToast.show();
+        roomDrawToast.show();
     }
 
 }
