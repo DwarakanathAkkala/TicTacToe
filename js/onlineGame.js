@@ -130,6 +130,12 @@ function createJoinGame(playerName, roomCode) {
     });
 
     socket.on('playingUsers', (e) => {
+
+        document.getElementById("joinGamePlay").style.display = "none";
+        document.getElementById("createGamePlay").style.display = "none";
+        document.getElementById("onlineMainMenu").style.display = "block";
+        document.getElementById("restarOnlineGame").style.display = "block";
+
         let roomPlayers = e.allPlayers;
         console.log("Room Player Joined", roomPlayers);
 

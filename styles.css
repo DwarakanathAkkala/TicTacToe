@@ -14,7 +14,7 @@ h1 {
     display: none;
 }
 
-#currTurn, #sign, #playerNames, #offlinePlayers {
+#currTurn, #sign, #playerNames, #offlinePlayers, #onlineMainMenu, #restarOnlineGame {
     display: none;
 }
 

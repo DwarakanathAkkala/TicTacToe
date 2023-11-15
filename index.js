@@ -105,7 +105,14 @@ io.on("connection", (socket) => {
         const user = userJoin(socket.id, userName, room);
 
         if (userslength < 2) {
-            socket.join(user.room)
+            socket.join(user.room);
+
+            // Broadcast when a user connects
+            socket.broadcast
+                .to(user.room)
+                .emit(
+                    `message ${user.userName} has joined the chat`
+                );
         }
         else {
             socket.emit('message', "Another player already joined the game");
@@ -115,12 +122,7 @@ io.on("connection", (socket) => {
         // Welcome current user
         socket.emit("message", ("Welcome to ChatCord!"));
 
-        // Broadcast when a user connects
-        socket.broadcast
-            .to(user.room)
-            .emit(
-                `message ${user.userName} has joined the chat`
-            );
+
 
         // Send users and room info
         io.to(user.room).emit("roomUsers", {
@@ -134,7 +136,7 @@ io.on("connection", (socket) => {
             if (user) {
                 io.to(user.room).emit(
                     "message",
-                    formatMessage(botName, `${user.userName} has left the chat`)
+                    (`${user.userName} has left the chat`)
                 );
 
                 // Send users and room info
