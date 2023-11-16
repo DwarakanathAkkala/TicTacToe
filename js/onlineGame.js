@@ -42,6 +42,7 @@ container.innerHTML = `
 `;
 
 let userName;
+const searchParams = new URLSearchParams(window.location.search);
 
 let gameOnElement = document.getElementById("gameOnToast");
 let gameOnToast = new bootstrap.Toast(gameOnElement, {
@@ -59,7 +60,23 @@ let roomDrawToast = new bootstrap.Toast(roomDrawElement, {
 });
 
 let waitForPlayerModal = new bootstrap.Modal(document.getElementById('waitForPlayerModal'));
+let createJoinGameModal = new bootstrap.Modal(document.getElementById('createGameModal'));
+let joinTabEle = new bootstrap.Tab(document.getElementById("join"));
 
+window.onload = () => {
+    for (const [key, value] of searchParams.entries()) {
+        if (key == "room" && value != null) {
+            document.getElementById("onlineMode").style.display = "block";
+            document.getElementById("localMode").style.display = "none";
+            createJoinGameModal.show();
+            document.getElementById("join-tab").classList.add("active");
+            document.getElementById("create-tab").classList.remove("active");
+            document.getElementById("create").classList.remove("active");
+            document.getElementById("join").classList.add("active");
+            document.getElementById("roomName").value = value;
+        }
+    }
+}
 
 document.getElementById('findPlayer').addEventListener("click", function () {
     userName = document.getElementById("yourName").value;
@@ -238,7 +255,6 @@ function winCheck(name, sum) {
 }
 
 function outputRoomName(room) {
-    console.log("Room Name: ", room);
     document.getElementById("roomCodeDisplay").innerHTML =
         `<div class="text-center mb-3">Room Name <b id="waitingRoomText">${room}</b></div>
         <div class="text-center mb-3">Share the Room Code with your friend to join the game.</div>
