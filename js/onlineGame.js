@@ -257,7 +257,8 @@ function winCheck(name, sum) {
 function outputRoomName(room) {
     document.getElementById("roomCodeDisplay").innerHTML =
         `<div class="text-center mb-3">Room Name <b id="waitingRoomText">${room}</b></div>
-        <div class="text-center mb-3">Share the Room Code with your friend to join the game.</div>
+        <div class="text-center mb-3">Share the Room link with your friend to join the game.</div>
+        <div class="text-center mb-3"><a href="https://tictac-d4xo.onrender.com/?room=${room}" target="_blank">https://tictac-d4xo.onrender.com/?room=${room}<a>
     `
 }
 
