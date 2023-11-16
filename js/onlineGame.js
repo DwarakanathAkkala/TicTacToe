@@ -197,6 +197,7 @@ function createJoinGame(playerName, roomCode) {
 }
 
 document.querySelectorAll(".gameGrid").forEach(ele => {
+    console.log("Clicker")
     ele.disabled = "false";
 
     ele.addEventListener("click", () => {

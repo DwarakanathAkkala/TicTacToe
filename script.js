@@ -56,6 +56,11 @@ function changePreferences() {
 
     currTurn = "player1"
 
+    document.getElementById("offlineSign").innerText = sign;
+    document.getElementById("offlinePlayerNames").innerText = playersInfo["player1"].displayName + " vs " + playersInfo["player2"].displayName;
+    document.getElementById("offlinePlayerNames").style.display = "block";
+    document.getElementById("offlineCurrTurnField").innerText = "It's " + playersInfo[currTurn].displayName + " turn";
+
     choose();
 }
 
@@ -77,7 +82,7 @@ function choose() {
 }
 
 function gameOn() {
-    inputElements = document.getElementsByClassName("gameGrid");
+    inputElements = document.getElementsByClassName("offlineGameGrid");
 
     for (let i = 0; i < inputElements.length; i++) {
         if (inputElements[i].disabled == false) {
@@ -101,8 +106,8 @@ let winningScenarios = [
     [6, 7, 8]
 ]
 
-let gridCells = document.querySelectorAll("td");
-let inputElements = document.getElementsByClassName("gameGrid");
+let gridCells = document.getElementsByClassName("offlineGridCell");
+let inputElements = document.getElementsByClassName("offlineGameGrid");
 
 let currTurn = "player1";
 let currGameChoice;
@@ -123,7 +128,8 @@ let playersInfo = {
 function startGame(val) {
 
     if (currTurn == "player1" && !((playersInfo["player2"].entries).includes(val))) {
-        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo["player1"].sign}" disabled="true">`;
+        console.log("Taped Player 1")
+        gridCells[val].innerHTML = `<input type="text" class="offlineGameGrid" size="1" value="${playersInfo["player1"].sign}" disabled="true">`;
         playersInfo["player1"].entries.push(val);
         checkResult("player1");
         currTurn = "player2";
@@ -131,7 +137,7 @@ function startGame(val) {
     }
 
     else if (currTurn == "player2" && !((playersInfo["player1"].entries).includes(val))) {
-        gridCells[val].innerHTML = `<input type="text" class="gameGrid" size="1" value="${playersInfo["player2"].sign}" disabled="true">`;
+        gridCells[val].innerHTML = `<input type="text" class="offlineGameGrid" size="1" value="${playersInfo["player2"].sign}" disabled="true">`;
         playersInfo["player2"].entries.push(val);
         checkResult("player2");
         currTurn = "player1";
@@ -143,7 +149,10 @@ function startGame(val) {
 
 function checkResult(ele) {
     for (let i in winningScenarios) {
+        console.log("Check for a win");
+        console.log(playersInfo[ele].entries)
         if (winningScenarios[i].every(val => playersInfo[ele].entries.includes(val)) == true) {
+            console.log("Win Scenario")
 
             document.getElementById("winnerMsg").innerText = playersInfo[ele].displayName + " Wins";
             winMsgToast.show();
