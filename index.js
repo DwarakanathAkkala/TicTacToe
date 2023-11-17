@@ -234,6 +234,9 @@ io.on("connection", (socket) => {
 
         socket.on("disconnect", () => {
             const user = userLeave(socket.id);
+            const objWithIdIndex = playingArray.findIndex((obj) => obj.displayName == userName);
+            playingArray.splice(objWithIdIndex, 1);
+            previousRoom = null;
 
             if (user) {
                 io.to(user.room).emit(
@@ -246,6 +249,8 @@ io.on("connection", (socket) => {
                     room: user.room,
                     users: getRoomUsers(user.room),
                 });
+
+                io.to(user.room).emit('userDisconnected', { user: user.userName })
             }
         });
 

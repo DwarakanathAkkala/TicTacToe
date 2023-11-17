@@ -110,6 +110,7 @@ let createJoinGameModal = new bootstrap.Modal(document.getElementById('createGam
 let joinTabEle = new bootstrap.Tab(document.getElementById("join"));
 
 window.onload = () => {
+    document.getElementById('restarOnlineGame').disabled = true;
     for (const [key, value] of searchParams.entries()) {
         if (key == "room" && value != null) {
             document.getElementById("onlineMode").style.display = "block";
@@ -228,6 +229,14 @@ function createJoinGame(playerName, roomCode) {
         outputUsers(users);
     });
 
+    socket.on('userDisconnected', (ele) => {
+        //console.log(user, " got diconnected");
+        document.getElementById('playerNames').style.display = "none";
+        document.getElementById('currTurnField').style.display = "none";
+
+        document.getElementById('disconnectedPlayerText').innerHTML = `<b> ${ele.user} got disconnected and left the game.</b>`
+        disconnectedPlayerModal.show();
+    })
 
     socket.on('playingUsers', (e) => {
 
