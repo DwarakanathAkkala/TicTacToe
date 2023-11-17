@@ -94,6 +94,9 @@ document.getElementById('findPlayer').addEventListener("click", function () {
     socket.on('roomUsers', ({ room, users }) => {
         outputRoomName(room);
         outputUsers(users);
+        if (users.length < 2) {
+            console.log("Stop the game");
+        }
     });
 
     socket.on('playingUsers', (e) => {

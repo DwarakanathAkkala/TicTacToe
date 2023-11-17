@@ -28,7 +28,6 @@ server.listen(port, () => {
 });
 
 let playingArray = [];
-const rooms = io.of("/").adapter.rooms;
 let previousRoom;
 let usersLength;
 
@@ -69,6 +68,7 @@ io.on("connection", (socket) => {
 
         socket.on("disconnect", () => {
             const user = userLeave(socket.id);
+            previousRoom = null;
 
             if (user) {
                 io.to(user.room).emit(
