@@ -68,6 +68,8 @@ io.on("connection", (socket) => {
 
         socket.on("disconnect", () => {
             const user = userLeave(socket.id);
+            const objWithIdIndex = playingArray.findIndex((obj) => obj.displayName == userName);
+            playingArray.splice(objWithIdIndex, 1);
             previousRoom = null;
 
             if (user) {

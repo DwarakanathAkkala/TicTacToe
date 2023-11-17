@@ -46,6 +46,25 @@ container.innerHTML = `
             </div>
         </div>
     </div>
+
+    <!-- Player Disconnected Modal -->
+    <div class="modal fade" id="disconnectedPlayerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center success" id="disconnectedPlayerTitle"><h6><b>Hooray! You have won the match.</b></h6></div>
+                <div class="modal-body">
+                    <div id="disconnectedPlayerText" class="d-flex justify-content-center"></div>
+                    <div class="d-flex justify-content-center">
+                        <b>Efforts does matter. You stood still for the game.</b>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Return to Main Menu</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="understood()">Understood</button>
+                </div> 
+            </div>
+        </div>
+    </div>
 `;
 
 let userName;
@@ -67,6 +86,7 @@ let roomDrawToast = new bootstrap.Toast(roomDrawElement, {
 });
 
 let waitForPlayerModal = new bootstrap.Modal(document.getElementById('waitForPlayerModal'));
+let disconnectedPlayerModal = new bootstrap.Modal(document.getElementById('disconnectedPlayerModal'));
 let createJoinGameModal = new bootstrap.Modal(document.getElementById('createGameModal'));
 let joinTabEle = new bootstrap.Tab(document.getElementById("join"));
 
@@ -85,7 +105,7 @@ window.onload = () => {
     }
 }
 
-document.getElementById('findPlayer').addEventListener("click", function () {
+function findPlayer() {
     userName = document.getElementById("yourName").value;
 
     socket.emit("find", { userName: userName, room: null })
@@ -96,8 +116,13 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         outputUsers(users);
     });
 
-    socket.on('userDisconnected', (user) => {
-        console.log(user, " got diconnected");
+    socket.on('userDisconnected', (ele) => {
+        //console.log(user, " got diconnected");
+        document.getElementById('playerNames').style.display = "none";
+        document.getElementById('currTurnField').style.display = "none";
+
+        document.getElementById('disconnectedPlayerText').innerHTML = `<b> ${ele.user} got disconnected and left the game.</b>`
+        disconnectedPlayerModal.show();
     })
 
     socket.on('playingUsers', (e) => {
@@ -289,5 +314,13 @@ function outputUsers(users) {
 }
 
 
+function understood() {
+    document.getElementById('restarOnlineGame').style.display = 'none';
+    document.getElementById('onlineMainMenu').style.display = 'none';
+    document.getElementById('joinGamePlay').style.display = 'block';
+    document.getElementById('createGamePlay').style.display = 'block';
+
+    document.getElementById('findPlayer').disabled = false;
+}
 
 
