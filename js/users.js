@@ -28,9 +28,18 @@ function getRoomUsers(room) {
     return users.filter(user => user.room === room);
 }
 
+function changeindex(room) {
+    if (users.filter(user => user.room === room)) {
+        const temp = users[0]
+        users[0] = users[1];
+        users[1] = temp;
+    }
+}
+
 module.exports = {
     userJoin,
     getCurrentUser,
     userLeave,
-    getRoomUsers
+    getRoomUsers,
+    changeindex
 };

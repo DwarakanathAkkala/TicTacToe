@@ -230,7 +230,6 @@ function createJoinGame(playerName, roomCode) {
     });
 
     socket.on('userDisconnected', (ele) => {
-        //console.log(user, " got diconnected");
         document.getElementById('playerNames').style.display = "none";
         document.getElementById('currTurnField').style.display = "none";
 

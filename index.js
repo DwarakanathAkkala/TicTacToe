@@ -8,6 +8,7 @@ const {
     getCurrentUser,
     userLeave,
     getRoomUsers,
+    changeindex
 } = require("./js/users");
 
 const app = express();
@@ -132,6 +133,8 @@ io.on("connection", (socket) => {
         if (req == 'playAnother') {
             console.log("Logic")
             playingArray = [];
+            changeindex(room);
+
             console.log("Playing Array", playingArray)
             let playingUsers = getRoomUsers(room);
 
