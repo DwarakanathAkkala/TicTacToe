@@ -2,8 +2,15 @@
 document.getElementById("onlinePlayGameBtn").addEventListener("click", () => {
     console.log("Online Game Mode Button Clicked");
     document.getElementById("onlineMode").style.display = "block";
+
+
     document.getElementById("localMode").style.display = "none";
-})
+});
+
+let onlineInputElements = document.getElementsByClassName("gameGrid");
+for (let i in onlineInputElements) {
+    onlineInputElements[i].value ? (onlineInputElements[i].value = "") : (onlineInputElements[i].value = "");
+}
 
 container.setAttribute("class", "container");
 container.innerHTML = `
@@ -81,14 +88,24 @@ window.onload = () => {
 document.getElementById('findPlayer').addEventListener("click", function () {
     userName = document.getElementById("yourName").value;
 
-    socket.emit("find", { name: userName })
+    socket.emit("find", { userName: userName, room: null })
     document.getElementById("findPlayer").disabled = true;
 
+    socket.on('roomUsers', ({ room, users }) => {
+        outputRoomName(room);
+        outputUsers(users);
+    });
 
-    socket.on('find', (e) => {
-        console.log("Socket IO Func")
-        let allPlayersArray = e.allPlayers
-        console.log("Players Info", allPlayersArray)
+    socket.on('playingUsers', (e) => {
+
+        waitForPlayerModal.hide();
+        document.getElementById("joinGamePlay").style.display = "none";
+        document.getElementById("createGamePlay").style.display = "none";
+        document.getElementById("onlineMainMenu").style.display = "block";
+        document.getElementById("restarOnlineGame").style.display = "block";
+
+        let roomPlayers = e.allPlayers;
+        console.log("Room Player Joined", roomPlayers);
 
         if (userName != "") {
             document.getElementById("currTurn").innerText = "X";
@@ -97,25 +114,66 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         let oppName;
         let sign;
 
-        const foundObj = allPlayersArray.find(obj => obj.player1.displayName == userName || obj.player2.displayName == userName)
+        const roomPlayersObj = roomPlayers.find(obj => obj.player1.displayName == userName || obj.player2.displayName == userName)
 
-        foundObj.player1.displayName == userName ? oppName = foundObj.player2.displayName : oppName = foundObj.player1.displayName;
-        foundObj.player1.displayName == userName ? sign = foundObj.player1.sign : sign = foundObj.player2.sign;
+        roomPlayersObj.player1.displayName == userName ? oppName = roomPlayersObj.player2.displayName : oppName = roomPlayersObj.player1.displayName;
+        roomPlayersObj.player1.displayName == userName ? sign = roomPlayersObj.player1.sign : sign = roomPlayersObj.player2.sign;
 
         //document.getElementById("signField").style.display = "block";
         document.getElementById("sign").innerText = sign;
         document.getElementById("playerNames").innerText = userName + " vs " + oppName;
         document.getElementById("playerNames").style.display = "block";
         document.getElementById("gameOnMsg").innerText = "Don't let " + oppName + " cross the line";
-        document.getElementById("currTurnField").innerText = "It's " + foundObj.player1.displayName + " turn";
+        document.getElementById("currTurnField").innerText = "It's " + roomPlayersObj.player1.displayName + " turn";
 
         gameOnToast.show();
 
-
-        let inputElements = document.getElementsByClassName("gameGrid");
-        for (let i in inputElements) {
-            inputElements[i].value ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = "", inputElements[i].disabled = false);
+        for (let i in onlineInputElements) {
+            onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
         }
+
+    })
+
+    // socket.on('find', (e) => {
+    //     console.log("Socket IO Func");
+    //     console.log(e);
+    //     let allPlayersArray = e.allPlayers;
+
+    //     socket.on('users', ({ room, users }) => {
+    //         console.log(room)
+    //         outputUsers(users);
+    //     });
+
+    //     console.log("Players Info", allPlayersArray)
+
+    //     if (userName != "") {
+    //         document.getElementById("currTurn").innerText = "X";
+    //     }
+
+    //     let oppName;
+    //     let sign;
+
+    //     const foundObj = allPlayersArray.find(obj => obj.player1.displayName == userName || obj.player2.displayName == userName)
+
+    //     foundObj.player1.displayName == userName ? oppName = foundObj.player2.displayName : oppName = foundObj.player1.displayName;
+    //     foundObj.player1.displayName == userName ? sign = foundObj.player1.sign : sign = foundObj.player2.sign;
+
+    //     //document.getElementById("signField").style.display = "block";
+    //     document.getElementById("sign").innerText = sign;
+    //     document.getElementById("playerNames").innerText = userName + " vs " + oppName;
+    //     document.getElementById("playerNames").style.display = "block";
+    //     document.getElementById("gameOnMsg").innerText = "Don't let " + oppName + " cross the line";
+    //     document.getElementById("currTurnField").innerText = "It's " + foundObj.player1.displayName + " turn";
+
+    //     gameOnToast.show();
+
+    //     for (let i in onlineInputElements) {
+    //         onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
+    //     }
+    // })
+
+    socket.on('message', (e) => {
+        console.log(e);
     })
 
 });
@@ -150,7 +208,6 @@ function createJoinGame(playerName, roomCode) {
     });
 
 
-
     socket.on('playingUsers', (e) => {
 
         waitForPlayerModal.hide();
@@ -183,10 +240,8 @@ function createJoinGame(playerName, roomCode) {
 
         gameOnToast.show();
 
-
-        let inputElements = document.getElementsByClassName("gameGrid");
-        for (let i in inputElements) {
-            inputElements[i].value ? (inputElements[i].value = "", inputElements[i].disabled = false) : (inputElements[i].value = "", inputElements[i].disabled = false);
+        for (let i in onlineInputElements) {
+            onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
         }
 
     })

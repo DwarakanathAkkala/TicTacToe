@@ -27,52 +27,105 @@ server.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
 
-
-let namesArray = [];
 let playingArray = [];
-let customRoomArray = [];
 const rooms = io.of("/").adapter.rooms;
+let previousRoom;
+let usersLength;
 
 io.on("connection", (socket) => {
-    socket.on("find", (e) => {
-        playingArray = [];
-        if (e.name != null) {
-            namesArray.push(e.name);
+    socket.on("find", ({ userName, room }) => {
 
-            if (namesArray.length >= 2) {
-                let p1 = {
-                    displayName: namesArray[0],
-                    sign: "X",
-                    entries: [],
-                    move: ""
-                }
+        usersLength = getRoomUsers(previousRoom).length;
 
-                let p2 = {
-                    displayName: namesArray[1],
-                    sign: "O",
-                    entries: [],
-                    move: ""
-                }
+        // Check for any available slot in active rooms
+        if (previousRoom && usersLength < 2) {
+            room = previousRoom;
+            console.log("previos room", room, "already exists with a spot");
+        }
+        else {
+            console.log("No Available rooms, Creating new Room");
+            room == (null || undefined) ? room = chance.country({ full: true }) : room;
+        }
 
-                let obj = {
-                    player1: p1,
-                    player2: p2,
-                    sum: 1
-                }
+        const user = userJoin(socket.id, userName, room);
 
-                playingArray.push(obj);
+        socket.join(user.room);
+        previousRoom = room;
+        // Broadcast when a user connects
+        socket.broadcast
+            .to(user.room)
+            .emit(
+                `message ${user.userName} has joined the chat`
+            );
 
-                namesArray.splice(0, 2) // Delete two names who started playing.
+        // Welcome current user
+        socket.emit("message", ("Welcome to ChatCord!"));
 
-                io.emit("find", { allPlayers: playingArray })
+        // Send users and room info
+        io.to(user.room).emit("roomUsers", {
+            room: user.room,
+            users: getRoomUsers(user.room),
+        });
 
+        socket.on("disconnect", () => {
+            const user = userLeave(socket.id);
+
+            if (user) {
+                io.to(user.room).emit(
+                    "message",
+                    (`${user.userName} has left the chat`)
+                );
+
+                // Send users and room info
+                io.to(user.room).emit("roomUsers", {
+                    room: user.room,
+                    users: getRoomUsers(user.room),
+                });
             }
+        });
+
+        let playingUsers = getRoomUsers(user.room);
+
+
+        if (playingUsers.length == 2) {
+            let roomUsers = getRoomUsers(user.room);
+            console.log("Current Room users", roomUsers)
+
+            io.to(user.room).emit("roomUsers", {
+                room: user.room,
+                users: getRoomUsers(user.room),
+            });
+
+            let friend1 = {
+                displayName: roomUsers[0].userName,
+                sign: "X",
+                entries: [],
+                move: ""
+            }
+
+            let friend2 = {
+                displayName: roomUsers[1].userName,
+                sign: "O",
+                entries: [],
+                move: ""
+            }
+
+            let obj = {
+                player1: friend1,
+                player2: friend2,
+                sum: 1
+            }
+
+            playingArray.push(obj);
+
+            io.to(user.room).emit('playingUsers', { allPlayers: playingArray });
         }
     })
 
 
     socket.on('playing', (e) => {
         console.log(e);
+        console.log("Playing Array", playingArray)
         if (e.sign == "X") {
             let objToChange = playingArray.find(obj => obj.player1.displayName === e.name)
             console.log("Object Change", objToChange)
