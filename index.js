@@ -126,6 +126,51 @@ io.on("connection", (socket) => {
         }
     })
 
+    socket.on('anotherGameReq', ({ req, user, room }) => {
+
+        console.log("Socket Reading")
+        if (req == 'playAnother') {
+            console.log("Logic")
+            playingArray = [];
+            console.log("Playing Array", playingArray)
+            let playingUsers = getRoomUsers(room);
+
+
+            if (playingUsers.length == 2) {
+                let roomUsers = getRoomUsers(room);
+                console.log("Current Room users", roomUsers)
+
+                io.to(room).emit("roomUsers", {
+                    room: room,
+                    users: getRoomUsers(room),
+                });
+
+                let friend1 = {
+                    displayName: roomUsers[0].userName,
+                    sign: "X",
+                    entries: [],
+                    move: ""
+                }
+
+                let friend2 = {
+                    displayName: roomUsers[1].userName,
+                    sign: "O",
+                    entries: [],
+                    move: ""
+                }
+
+                let obj = {
+                    player1: friend1,
+                    player2: friend2,
+                    sum: 1
+                }
+
+                playingArray.push(obj);
+
+                io.to(room).emit('playingUsers', { allPlayers: playingArray });
+            }
+        }
+    });
 
     socket.on('playing', (e) => {
         console.log(e);
