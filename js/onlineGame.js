@@ -94,10 +94,11 @@ document.getElementById('findPlayer').addEventListener("click", function () {
     socket.on('roomUsers', ({ room, users }) => {
         outputRoomName(room);
         outputUsers(users);
-        if (users.length < 2) {
-            console.log("Stop the game");
-        }
     });
+
+    socket.on('userDisconnected', (user) => {
+        console.log(user, " got diconnected");
+    })
 
     socket.on('playingUsers', (e) => {
 
@@ -136,44 +137,6 @@ document.getElementById('findPlayer').addEventListener("click", function () {
         }
 
     })
-
-    // socket.on('find', (e) => {
-    //     console.log("Socket IO Func");
-    //     console.log(e);
-    //     let allPlayersArray = e.allPlayers;
-
-    //     socket.on('users', ({ room, users }) => {
-    //         console.log(room)
-    //         outputUsers(users);
-    //     });
-
-    //     console.log("Players Info", allPlayersArray)
-
-    //     if (userName != "") {
-    //         document.getElementById("currTurn").innerText = "X";
-    //     }
-
-    //     let oppName;
-    //     let sign;
-
-    //     const foundObj = allPlayersArray.find(obj => obj.player1.displayName == userName || obj.player2.displayName == userName)
-
-    //     foundObj.player1.displayName == userName ? oppName = foundObj.player2.displayName : oppName = foundObj.player1.displayName;
-    //     foundObj.player1.displayName == userName ? sign = foundObj.player1.sign : sign = foundObj.player2.sign;
-
-    //     //document.getElementById("signField").style.display = "block";
-    //     document.getElementById("sign").innerText = sign;
-    //     document.getElementById("playerNames").innerText = userName + " vs " + oppName;
-    //     document.getElementById("playerNames").style.display = "block";
-    //     document.getElementById("gameOnMsg").innerText = "Don't let " + oppName + " cross the line";
-    //     document.getElementById("currTurnField").innerText = "It's " + foundObj.player1.displayName + " turn";
-
-    //     gameOnToast.show();
-
-    //     for (let i in onlineInputElements) {
-    //         onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
-    //     }
-    // })
 
     socket.on('message', (e) => {
         console.log(e);

@@ -81,6 +81,8 @@ io.on("connection", (socket) => {
                     room: user.room,
                     users: getRoomUsers(user.room),
                 });
+
+                io.to(user.room).emit('userDisconnected', { user: user.userName })
             }
         });
 
