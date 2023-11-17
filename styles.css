@@ -18,12 +18,16 @@ h1 {
     display: none;
 }
 
-#waitingPlayerText, #disconnectedPlayerText {
+#waitingPlayerText, #disconnectedPlayerText, #staticBackdropLabel {
     color: #FF2E63;
 }
 
 #waitingRoomText {
     color: #0dcaf0;
+}
+
+#disconnectedPlayerTitle {
+    color: darkviolet;
 }
 
 table {

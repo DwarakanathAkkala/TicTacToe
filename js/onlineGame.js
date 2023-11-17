@@ -2,8 +2,6 @@
 document.getElementById("onlinePlayGameBtn").addEventListener("click", () => {
     console.log("Online Game Mode Button Clicked");
     document.getElementById("onlineMode").style.display = "block";
-
-
     document.getElementById("localMode").style.display = "none";
 });
 
@@ -59,15 +57,36 @@ container.innerHTML = `
                     </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Return to Main Menu</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="understood()">Understood</button>
+                  <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="mainMenu()">Return to Main Menu</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="understood()">Understood and Continue</button>
                 </div> 
             </div>
         </div>
     </div>
+
+    <!-- Main Menu Confirm Modal -->
+    <div class="modal fade" id="mainMenuModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content justify-content-center">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5 warning" id="staticBackdropLabel">Do you wish to continue?</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <b>Any game progress will be lost and disconnected.</b>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" onclick="mainMenu()" class="btn btn-primary">Yes. I understand.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 `;
 
 let userName;
+let currRoomUsers;
 const searchParams = new URLSearchParams(window.location.search);
 
 let gameOnElement = document.getElementById("gameOnToast");
@@ -134,6 +153,7 @@ function findPlayer() {
         document.getElementById("restarOnlineGame").style.display = "block";
 
         let roomPlayers = e.allPlayers;
+        currRoomUsers = roomPlayers;
         console.log("Room Player Joined", roomPlayers);
 
         if (userName != "") {
@@ -167,7 +187,17 @@ function findPlayer() {
         console.log(e);
     })
 
-});
+    socket.on('feedback', ({ req }) => {
+        if (req == 'playAnother') {
+            for (let i in onlineInputElements) {
+                onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
+            }
+            console.log("Another Game Requested by other User");
+            socket.emit('playingUsers', { allPlayers: currRoomUsers })
+        }
+    });
+
+}
 
 function createJoinGame(playerName, roomCode) {
     let roomCreateUserName;
@@ -240,10 +270,19 @@ function createJoinGame(playerName, roomCode) {
     socket.on('message', (e) => {
         console.log(e);
     })
+
+    socket.on('feedback', ({ req }) => {
+        if (req == 'playAnother') {
+            for (let i in onlineInputElements) {
+                onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
+            }
+            console.log("Another Game Requested by other User");
+            socket.emit('playingUsers', { allPlayers: currRoomUsers })
+        }
+    });
 }
 
 document.querySelectorAll(".gameGrid").forEach(ele => {
-    console.log("Clicker")
     ele.disabled = "false";
 
     ele.addEventListener("click", () => {
@@ -292,16 +331,19 @@ function winCheck(name, sum) {
         socket.emit("gameOver", { name: name });
         document.getElementById("winnerMsg").innerText = name + " Wins";
         roomWinToast.show();
+        document.getElementById('restarOnlineGame').disabled = false;
     }
 
     else if (sum == 10) {
         socket.emit("gameOver", { name: name });
         roomDrawToast.show();
+        document.getElementById('restarOnlineGame').disabled = false;
     }
 
 }
 
 function outputRoomName(room) {
+    currRoom = room;
     document.getElementById("roomCodeDisplay").innerHTML =
         `<div class="text-center mb-3">Room Name <b id="waitingRoomText">${room}</b></div>
         <div class="text-center mb-3">Share the Room link with your friend to join the game.</div>
@@ -313,6 +355,10 @@ function outputUsers(users) {
     console.log("All Users in the Current Room", users);
 }
 
+function onlineGameRestart() {
+    document.getElementById('restarOnlineGame').disabled = true;
+    socket.emit('anotherGameReq', { req: 'playAnother', user: userName, room: currRoom });
+}
 
 function understood() {
     document.getElementById('restarOnlineGame').style.display = 'none';
@@ -321,6 +367,10 @@ function understood() {
     document.getElementById('createGamePlay').style.display = 'block';
 
     document.getElementById('findPlayer').disabled = false;
+}
+
+function mainMenu() {
+    location.reload();
 }
 
 
