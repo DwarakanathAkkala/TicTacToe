@@ -316,6 +316,8 @@ function createJoinGame(playerName, roomCode) {
 
     socket.on('challangeSent', ({ user }) => {
         console.log(user, 'challenged you');
+        document.getElementById('challengeReqText').innerHTML = `<b>${user.userName} challenged you for a re-match.</b>`;
+        challengeRequestModal.show();
     });
 }
 
