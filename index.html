@@ -103,7 +103,7 @@
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" id="findPlayer" onclick="findPlayer()" data-bs-dismiss="modal">Search for Players...</button>
+                          <button type="button" class="btn btn-primary" id="findPlayer" onclick="findPlayer()" data-bs-toggle="modal" data-bs-target="#waitForRandomPlayerModal" data-bs-dismiss="modal">Search for Players...</button>
                       </div>
                   </div>
                 </div>
@@ -165,13 +165,30 @@
                 </div>
             </div>
 
-            <!-- Wait for Player to Join Modal -->
+            <!-- Wait for Private Player to Join Modal -->
             <div class="modal fade" id="waitForPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header text-center" id="waitingPlayerText"><b>Waiting for Player to Join</b></div>
+                        <div class="modal-header justify-content-center" id="waitingPlayerText"><b>Waiting for Player to Join</b></div>
                         <div class="modal-body">
                             <div class="row" id="roomCodeDisplay"></div>
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border text-info" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>                   
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wait for Private Player to Join Modal -->
+            <div class="modal fade" id="waitForRandomPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center" id="waitingPlayerText"><b>Dwaraka's Bot is here</b></div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-center"><b>Seeking a game partner soon....</b></div><br>
                             <div class="d-flex justify-content-center">
                                 <div class="spinner-border text-info" role="status">
                                     <span class="visually-hidden">Loading...</span>
