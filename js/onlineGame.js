@@ -125,6 +125,7 @@ let waitForPlayerModal = new bootstrap.Modal(document.getElementById('waitForPla
 let disconnectedPlayerModal = new bootstrap.Modal(document.getElementById('disconnectedPlayerModal'));
 let createJoinGameModal = new bootstrap.Modal(document.getElementById('createGameModal'));
 let challengeRequestModal = new bootstrap.Modal(document.getElementById('challengeRequestModal'));
+let waitForRandomPlayerModal = new bootstrap.Modal(document.getElementById('waitForRandomPlayerModal'));
 
 let joinTabEle = new bootstrap.Tab(document.getElementById("join"));
 
@@ -164,9 +165,12 @@ function findPlayer() {
         disconnectedPlayerModal.show();
     })
 
-    socket.on('playingUsers', (e) => {
+    socket.on('waitingForRandomPlayer', () => {
+        waitForRandomPlayerModal.show();
+    })
 
-        waitForPlayerModal.hide();
+    socket.on('playingUsers', (e) => {
+        waitForRandomPlayerModal.hide();
         document.getElementById("joinGamePlay").style.display = "none";
         document.getElementById("createGamePlay").style.display = "none";
         document.getElementById("onlineMainMenu").style.display = "block";

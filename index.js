@@ -45,6 +45,7 @@ io.on("connection", (socket) => {
         else {
             console.log("No Available rooms, Creating new Room");
             room == (null || undefined) ? room = chance.country({ full: true }) : room;
+            socket.emit('waitingForRandomPlayer', "The wait is ON");
         }
 
         const user = userJoin(socket.id, userName, room);
