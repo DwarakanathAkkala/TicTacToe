@@ -207,16 +207,6 @@ function findPlayer() {
         console.log(e);
     })
 
-    socket.on('feedback', ({ req }) => {
-        if (req == 'playAnother') {
-            for (let i in onlineInputElements) {
-                onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
-            }
-            console.log("Another Game Requested by other User");
-            socket.emit('playingUsers', { allPlayers: currRoomUsers })
-        }
-    });
-
     socket.on('challangeSent', ({ user }) => {
         console.log(user, 'challenged you');
         document.getElementById('challengeReqText').innerHTML = `<b>${user.userName} challenged you for a re-match.</b>`;
@@ -303,16 +293,6 @@ function createJoinGame(playerName, roomCode) {
     socket.on('message', (e) => {
         console.log(e);
     })
-
-    socket.on('feedback', ({ req }) => {
-        if (req == 'playAnother') {
-            for (let i in onlineInputElements) {
-                onlineInputElements[i].value ? (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false) : (onlineInputElements[i].value = "", onlineInputElements[i].disabled = false);
-            }
-            console.log("Another Game Requested by other User");
-            socket.emit('playingUsers', { allPlayers: currRoomUsers })
-        }
-    });
 
     socket.on('challangeSent', ({ user }) => {
         console.log(user, 'challenged you');
