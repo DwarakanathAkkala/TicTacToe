@@ -49,7 +49,7 @@ container.innerHTML = `
     <div class="modal fade" id="disconnectedPlayerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header justify-content-center success" id="disconnectedPlayerTitle"><h6><b>Hooray! You have won the match.</b></h6></div>
+                <div class="modal-header justify-content-center success" id="disconnectedPlayerTitle"><h6><b>Oops! Opponent left the room.</b></h6></div>
                 <div class="modal-body">
                     <div id="disconnectedPlayerText" class="d-flex justify-content-center"></div>
                     <div class="d-flex justify-content-center">
@@ -83,6 +83,23 @@ container.innerHTML = `
         </div>
     </div>
 
+    <!-- Challenge Request Confirm Modal -->
+    <div class="modal fade" id="challengeRequestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header justify-content-center">
+                  <h1 class="modal-title fs-5 warning d-flex justify-content-center" id="staticBackdropLabel"><b>Challenge Request</b></h1>
+                </div>
+                <div class="modal-body d-flex justify-content-center" id="challengeReqText">
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" onclick="mainMenu()" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" onclick="challengeReqConfirm()" data-bs-dismiss="modal" class="btn btn-primary">Yes. Battle Again.</button>
+                </div>
+            </div>
+        </div>
+    </div>
 `;
 
 let userName;
@@ -107,6 +124,8 @@ let roomDrawToast = new bootstrap.Toast(roomDrawElement, {
 let waitForPlayerModal = new bootstrap.Modal(document.getElementById('waitForPlayerModal'));
 let disconnectedPlayerModal = new bootstrap.Modal(document.getElementById('disconnectedPlayerModal'));
 let createJoinGameModal = new bootstrap.Modal(document.getElementById('createGameModal'));
+let challengeRequestModal = new bootstrap.Modal(document.getElementById('challengeRequestModal'));
+
 let joinTabEle = new bootstrap.Tab(document.getElementById("join"));
 
 window.onload = () => {
@@ -141,7 +160,7 @@ function findPlayer() {
         document.getElementById('playerNames').style.display = "none";
         document.getElementById('currTurnField').style.display = "none";
 
-        document.getElementById('disconnectedPlayerText').innerHTML = `<b> ${ele.user} got disconnected and left the game.</b>`
+        document.getElementById('disconnectedPlayerText').innerHTML = `<b> ${ele.user} got disconnected.</b>`
         disconnectedPlayerModal.show();
     })
 
@@ -196,6 +215,12 @@ function findPlayer() {
             console.log("Another Game Requested by other User");
             socket.emit('playingUsers', { allPlayers: currRoomUsers })
         }
+    });
+
+    socket.on('challangeSent', ({ user }) => {
+        console.log(user, 'challenged you');
+        document.getElementById('challengeReqText').innerHTML = `<b>${user.userName} challenged you for a re-match.</b>`;
+        challengeRequestModal.show();
     });
 
 }
@@ -288,6 +313,10 @@ function createJoinGame(playerName, roomCode) {
             socket.emit('playingUsers', { allPlayers: currRoomUsers })
         }
     });
+
+    socket.on('challangeSent', ({ user }) => {
+        console.log(user, 'challenged you');
+    });
 }
 
 document.querySelectorAll(".gameGrid").forEach(ele => {
@@ -365,6 +394,11 @@ function outputUsers(users) {
 
 function onlineGameRestart() {
     document.getElementById('restarOnlineGame').disabled = true;
+    socket.emit('challengeReq', ({ room: currRoom }));
+}
+
+function challengeReqConfirm() {
+    console.log("New Game Starts here");
     socket.emit('anotherGameReq', { req: 'playAnother', user: userName, room: currRoom });
 }
 
@@ -375,10 +409,12 @@ function understood() {
     document.getElementById('createGamePlay').style.display = 'block';
 
     document.getElementById('findPlayer').disabled = false;
+    for (let i in onlineInputElements) {
+        onlineInputElements[i].value = "";
+        onlineInputElements[i].disabled = true;
+    }
 }
 
 function mainMenu() {
     location.reload();
 }
-
-

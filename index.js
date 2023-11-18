@@ -89,6 +89,11 @@ io.on("connection", (socket) => {
             }
         });
 
+        socket.on('challengeReq', (room) => {
+            console.log("Challenged Room", room);
+            socket.broadcast.to(user.room).emit('challangeSent', { user: user });
+        })
+
         let playingUsers = getRoomUsers(user.room);
 
 
@@ -256,6 +261,11 @@ io.on("connection", (socket) => {
                 io.to(user.room).emit('userDisconnected', { user: user.userName })
             }
         });
+
+        socket.on('challengeReq', (room) => {
+            console.log("Challenged Room", room);
+            socket.broadcast.to(user.room).emit('challangeSent', { user: user });
+        })
 
         let playingUsers = getRoomUsers(user.room);
 
