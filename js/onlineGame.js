@@ -10,9 +10,8 @@ for (let i in onlineInputElements) {
     onlineInputElements[i].value ? (onlineInputElements[i].value = "") : (onlineInputElements[i].value = "");
 }
 
-let onlineContainer = document.createElement("div");
-onlineContainer.setAttribute("class", "container");
-onlineContainer.innerHTML = `
+container.setAttribute("class", "container");
+container.innerHTML = `
     <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
         <div id="gameOnToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -102,8 +101,6 @@ onlineContainer.innerHTML = `
         </div>
     </div>
 `;
-
-document.body.append(onlineContainer);
 
 let userName;
 let currRoomUsers;
