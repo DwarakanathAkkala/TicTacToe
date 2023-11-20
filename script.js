@@ -1,7 +1,7 @@
-let container = document.createElement("div");
-container.setAttribute("class", "container");
-container.innerHTML = `
-    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
+let offlineContainer = document.createElement("div");
+offlineContainer.setAttribute("class", "container");
+offlineContainer.innerHTML = `
+    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 1">
         <div id="winnerToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="mt-auto">Hooray!!</strong>
@@ -12,7 +12,7 @@ container.innerHTML = `
         </div>
     </div>
 
-    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 0">
+    <div class="toast-container position-fixed top-50 start-50 translate-middle" style="z-index: 1">
         <div id="drawToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="mt-auto">It's a draw</strong>
@@ -25,9 +25,10 @@ container.innerHTML = `
 `;
 
 // Add Created DOM to HTML
-document.body.append(container);
+document.body.append(offlineContainer);
 
 let winMsgElement = document.getElementById("winnerToast");
+console.log(winMsgElement)
 let winMsgToast = new bootstrap.Toast(winMsgElement, {
     delay: 800
 });
