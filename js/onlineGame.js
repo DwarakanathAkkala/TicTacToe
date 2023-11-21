@@ -123,6 +123,7 @@ let roomDrawToast = new bootstrap.Toast(roomDrawElement, {
 
 let waitForPlayerModal = new bootstrap.Modal(document.getElementById('waitForPlayerModal'));
 let disconnectedPlayerModal = new bootstrap.Modal(document.getElementById('disconnectedPlayerModal'));
+let joinGameModal = new bootstrap.Modal(document.getElementById('joinGameModal'));
 let createJoinGameModal = new bootstrap.Modal(document.getElementById('createGameModal'));
 let challengeRequestModal = new bootstrap.Modal(document.getElementById('challengeRequestModal'));
 let waitForRandomPlayerModal = new bootstrap.Modal(document.getElementById('waitForRandomPlayerModal'));
@@ -148,6 +149,13 @@ window.onload = () => {
 function findPlayer() {
     userName = document.getElementById("yourName").value;
 
+    if (userName.length < 1) {
+        document.getElementById('findPlayerValidation').style.display = 'block';
+        return;
+    }
+
+    document.getElementById('findPlayerValidation').style.display = 'none';
+    joinGameModal.hide();
     socket.emit("find", { userName: userName, room: null })
     document.getElementById("findPlayer").disabled = true;
 
@@ -220,6 +228,20 @@ function findPlayer() {
 }
 
 function createJoinGame(playerName, roomCode) {
+
+    const invalidFields = document.getElementsByClassName('roomPlayerValidation');
+    if (playerName.length < 1) {
+        invalidFields[0].style.display = 'block';
+        invalidFields[1].style.display = 'block';
+        return;
+    }
+
+    createJoinGameModal.hide();
+
+    invalidFields[0].style.display = 'none';
+    invalidFields[1].style.display = 'none';
+
+
     let roomCreateUserName;
     let roomJoinUserName;
     let roomJoinName;
@@ -228,12 +250,14 @@ function createJoinGame(playerName, roomCode) {
     userName = playerName;
     console.log("User Name VAlue", userName)
     if (roomCode == null) {
+        waitForPlayerModal.show();
         roomCreateUserName = document.getElementById('roomUserName').value;
 
         socket.emit("pivateRoom", { userName: roomCreateUserName });
     }
 
     else {
+        waitForPlayerModal.hide();
         roomJoinUserName = document.getElementById("joiningUserName").value;
         roomJoinName = document.getElementById("roomName").value;
 

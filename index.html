@@ -98,12 +98,15 @@
                             <div class="col prefCol">
                                 <input type="text" class="form-control" id="yourName" name="playerName" placeholder="Don't let name to be 'Player'" aria-label="Player 1">
                             </div>
+                            <div id="findPlayerValidation">
+                                Please enter a valid input
+                            </div>
                         </div>
                           
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" id="findPlayer" onclick="findPlayer()" data-bs-dismiss="modal">Search for Players...</button>
+                          <button type="button" class="btn btn-primary" id="findPlayer" onclick="findPlayer()">Search for Players...</button>
                       </div>
                   </div>
                 </div>
@@ -133,9 +136,12 @@
                                     </div>
                                     <div class="col prefCol">
                                         <input type="text" id="roomUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
+                                        <div class="roomPlayerValidation">
+                                            Please enter valid input
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary" id="createGame" data-bs-toggle="modal" data-bs-target="#waitForPlayerModal" onclick="createJoinGame(document.getElementById('roomUserName').value, null)" data-bs-dismiss="modal">Create Game</button>
+                                <button type="button" class="btn btn-primary" id="createGame" onclick="createJoinGame(document.getElementById('roomUserName').value, null)">Create Game</button>
                               </div>
 
                               <div class="tab-pane" id="join" role="tabpanel" aria-labelledby="join-tab" tabindex="0">
@@ -145,6 +151,9 @@
                                     </div>
                                     <div class="col prefCol">
                                         <input type="text" id="joiningUserName" class="form-control" name="playerName" placeholder="Don't let name to be 'Player'" >
+                                        <div class="roomPlayerValidation">
+                                            Please enter valid input
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mt-3 mb-3">
@@ -156,7 +165,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-primary" id="joinGame" onclick="createJoinGame(document.getElementById('joiningUserName').value, document.getElementById('roomName').value)" data-bs-dismiss="modal">Join Game</button>
+                                <button type="button" class="btn btn-primary" id="joinGame" onclick="createJoinGame(document.getElementById('joiningUserName').value, document.getElementById('roomName').value)">Join Game</button>
                               </div>
 
                             </div>
