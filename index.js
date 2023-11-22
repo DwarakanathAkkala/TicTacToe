@@ -208,10 +208,18 @@ io.on("connection", (socket) => {
     });
 
     socket.on("pivateRoom", ({ userName, room }) => {
-        let userslength = getRoomUsers(room).length;
-        console.log(userslength)
 
-        // if (room != null || undefined)
+        let userslength = getRoomUsers(room).length;
+        console.log(userslength);
+        let roomUsers = getRoomUsers(room);
+
+        if (roomUsers[0]) {
+            console.log("Visited for Second person")
+            if (roomUsers[0].userName == userName) {
+                socket.emit('duplicatePerson', "Already player exist");
+                return;
+            }
+        }
         room == (null || undefined) ? room = chance.country({ full: true }) : room;
         const user = userJoin(socket.id, userName, room);
 

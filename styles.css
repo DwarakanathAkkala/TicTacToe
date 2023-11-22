@@ -14,13 +14,7 @@ h1 {
     display: none;
 }
 
-#findPlayerValidation {
-    display: none;
-    color: red;
-    text-align: center;
-}
-
-.roomPlayerValidation {
+#findPlayerValidation, #duplicatePlayerValidation, .roomPlayerValidation {
     display: none;
     color: red;
     text-align: center;

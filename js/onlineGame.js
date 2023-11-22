@@ -231,16 +231,14 @@ function createJoinGame(playerName, roomCode) {
 
     const invalidFields = document.getElementsByClassName('roomPlayerValidation');
     if (playerName.length < 1) {
+        createJoinGameModal.show();
         invalidFields[0].style.display = 'block';
         invalidFields[1].style.display = 'block';
         return;
     }
 
-    createJoinGameModal.hide();
-
     invalidFields[0].style.display = 'none';
     invalidFields[1].style.display = 'none';
-
 
     let roomCreateUserName;
     let roomJoinUserName;
@@ -272,6 +270,11 @@ function createJoinGame(playerName, roomCode) {
         outputUsers(users);
     });
 
+    socket.on('duplicatePerson', () => {
+        // Invoking function without passing the duplicate named user to the same room
+        duplicatePerson();
+    });
+
     socket.on('userDisconnected', (ele) => {
         document.getElementById('playerNames').style.display = "none";
         document.getElementById('currTurnField').style.display = "none";
@@ -283,6 +286,8 @@ function createJoinGame(playerName, roomCode) {
     socket.on('playingUsers', (e) => {
 
         waitForPlayerModal.hide();
+        createJoinGameModal.hide();
+        document.getElementById('duplicatePlayerValidation').style.display = 'block';
         document.getElementById("joinGamePlay").style.display = "none";
         document.getElementById("createGamePlay").style.display = "none";
         document.getElementById("onlineMainMenu").style.display = "block";
@@ -427,4 +432,9 @@ function understood() {
 
 function mainMenu() {
     location.reload();
+}
+
+function duplicatePerson() {
+    createJoinGameModal.show();
+    document.getElementById('duplicatePlayerValidation').style.display = 'block';
 }
