@@ -30,28 +30,50 @@ server.listen(port, () => {
 
 let playingArray = [];
 let previousRoom;
+let waitingRoom;
 let usersLength;
 
 io.on("connection", (socket) => {
     socket.on("find", ({ userName, room }) => {
 
         usersLength = getRoomUsers(previousRoom).length;
+        let previousRoomUsers = getRoomUsers(previousRoom);
+        let waitingRoomUsers = getRoomUsers(waitingRoom);
+        console.log("Previous Room User", previousRoomUsers)
 
         // Check for any available slot in active rooms
-        if (previousRoom && usersLength < 2) {
-            room = previousRoom;
-            console.log("previos room", room, "already exists with a spot");
+
+        if (waitingRoom != (null || undefined) && waitingRoomUsers.length < 2) {
+            console.log("first")
+            room = waitingRoom;
+        }
+        else if (previousRoom && usersLength < 2) {
+            if (previousRoomUsers[0].userName != userName) {
+                room = previousRoom;
+                console.log("previos room", room, "already exists with a spot");
+            }
+            else {
+                room == (null || undefined) ? room = chance.country({ full: true }) : room;
+                waitingRoom = room;
+                socket.emit('waitingForRandomPlayer', "The wait is ON");
+                console.log("Room with same user exists, hence created new room")
+            }
         }
         else {
             console.log("No Available rooms, Creating new Room");
             room == (null || undefined) ? room = chance.country({ full: true }) : room;
             socket.emit('waitingForRandomPlayer', "The wait is ON");
+            previousRoom = room;
         }
+
+        console.log("Waiting Room", waitingRoom);
+        console.log("Previous Room", previousRoom);
+        console.log("Room", room);
 
         const user = userJoin(socket.id, userName, room);
 
         socket.join(user.room);
-        previousRoom = room;
+        //previousRoom = room;
         // Broadcast when a user connects
         socket.broadcast
             .to(user.room)
