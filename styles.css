@@ -20,7 +20,7 @@ h1 {
     text-align: center;
 }
 
-#currTurn, #sign, #playerNames, #offlinePlayers, #onlineMainMenu, #restarOnlineGame, #offlinePlayerNames, #offlineSign, #offlineCurrTurn {
+#currTurn, #sign, #playerNames, #offlinePlayers, #resultAlert, #onlineMainMenu, #restarOnlineGame, #offlinePlayerNames, #offlineSign, #offlineCurrTurn {
     display: none;
 }
 
