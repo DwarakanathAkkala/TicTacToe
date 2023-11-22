@@ -29,11 +29,15 @@ server.listen(port, () => {
 });
 
 let playingArray = [];
+let clickedUser;
 let previousRoom;
 let waitingRoom;
 let usersLength;
 
 io.on("connection", (socket) => {
+    let roomUsers;
+
+
     socket.on("find", ({ userName, room }) => {
 
         usersLength = getRoomUsers(previousRoom).length;
@@ -119,10 +123,12 @@ io.on("connection", (socket) => {
 
         let playingUsers = getRoomUsers(user.room);
 
-
         if (playingUsers.length == 2) {
-            let roomUsers = getRoomUsers(user.room);
+            roomUsers = getRoomUsers(user.room);
             console.log("Current Room users", roomUsers)
+
+            currPlayer1 = roomUsers[0].userName;
+            currPlayer2 = roomUsers[1].userName;
 
             io.to(user.room).emit("roomUsers", {
                 room: user.room,
@@ -153,6 +159,18 @@ io.on("connection", (socket) => {
 
             io.to(user.room).emit('playingUsers', { allPlayers: playingArray });
         }
+
+        socket.on('gameOver', ({ sum, currRoom, name }) => {
+            console.log("Current Room", currRoom);
+            console.log("playing Array", playingArray)
+            if (sum % 2 == 0 && clickedUser == 'player1') {
+                socket.to(currRoom).emit('winner', { winner: currPlayer1 });
+            }
+            else if (sum % 2 != 0 && clickedUser == 'player2') {
+                socket.to(currRoom).emit('winner', { winner: currPlayer2 });
+            }
+
+        });
     })
 
     socket.on('anotherGameReq', ({ req, user, room }) => {
@@ -212,6 +230,7 @@ io.on("connection", (socket) => {
             objToChange["player1"].move = e.move;
             console.log("X object changed", objToChange)
             objToChange.sum++;
+            clickedUser = "player1";
         }
 
         else if (e.sign == "O") {
@@ -220,6 +239,7 @@ io.on("connection", (socket) => {
             objToChange.player2.move = e.move;
             console.log("O object Changed ", objToChange)
             objToChange.sum++;
+            clickedUser = "player2";
         }
 
         io.emit('playing', { allPlayers: playingArray })
@@ -305,6 +325,9 @@ io.on("connection", (socket) => {
             let roomUsers = getRoomUsers(user.room);
             console.log("Current Room users", roomUsers)
 
+            currPlayer1 = roomUsers[0].userName;
+            currPlayer2 = roomUsers[1].userName;
+
             io.to(user.room).emit("roomUsers", {
                 room: user.room,
                 users: getRoomUsers(user.room),
@@ -335,6 +358,17 @@ io.on("connection", (socket) => {
             io.to(user.room).emit('playingUsers', { allPlayers: playingArray });
         }
 
+        socket.on('gameOver', ({ sum, currRoom, name }) => {
+            console.log("Current Room", currRoom);
+            console.log("playing Array", playingArray)
+            if (sum % 2 == 0 && clickedUser == 'player1') {
+                socket.to(currRoom).emit('winner', { winner: currPlayer1 });
+            }
+            else if (sum % 2 != 0 && clickedUser == 'player2') {
+                socket.to(currRoom).emit('winner', { winner: currPlayer2 });
+            }
+
+        })
 
     });
 

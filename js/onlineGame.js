@@ -40,7 +40,7 @@ container.innerHTML = `
                 <strong class="mt-auto">It's a draw</strong>
             </div>
             <div class="toast-body bg-success text-white" id="drawMsg">
-                Looks like tough competetion! 
+                Looks like tough competetion!
             </div>
         </div>
     </div>
@@ -183,6 +183,7 @@ function findPlayer() {
         document.getElementById("createGamePlay").style.display = "none";
         document.getElementById("onlineMainMenu").style.display = "block";
         document.getElementById("restarOnlineGame").style.display = "block";
+        document.getElementById('resultAlert').style.display = 'none';
 
         let roomPlayers = e.allPlayers;
         currRoomUsers = roomPlayers;
@@ -224,6 +225,18 @@ function findPlayer() {
         document.getElementById('challengeReqText').innerHTML = `<b>${user.userName} challenged you for a re-match.</b>`;
         challengeRequestModal.show();
     });
+
+    socket.on('winner', (e) => {
+        console.log("winner", e.winner);
+        document.getElementById("winnerMsg").innerText = e.winner + " Wins";
+        document.getElementById('resultAlert').innerText = `Hooray! ${e.winner} has won the match`;
+        document.getElementById('resultAlert').style.display = 'block';
+        roomWinToast.show();
+        document.getElementById('restarOnlineGame').disabled = false;
+        for (let i in onlineInputElements) {
+            onlineInputElements[i].disabled = true;
+        }
+    })
 
 }
 
@@ -287,11 +300,13 @@ function createJoinGame(playerName, roomCode) {
 
         waitForPlayerModal.hide();
         createJoinGameModal.hide();
+
         document.getElementById('duplicatePlayerValidation').style.display = 'block';
         document.getElementById("joinGamePlay").style.display = "none";
         document.getElementById("createGamePlay").style.display = "none";
         document.getElementById("onlineMainMenu").style.display = "block";
         document.getElementById("restarOnlineGame").style.display = "block";
+        document.getElementById('resultAlert').style.display = 'none';
 
         let roomPlayers = e.allPlayers;
         console.log("Room Player Joined", roomPlayers);
@@ -332,6 +347,19 @@ function createJoinGame(playerName, roomCode) {
         document.getElementById('challengeReqText').innerHTML = `<b>${user.userName} challenged you for a re-match.</b>`;
         challengeRequestModal.show();
     });
+
+    socket.on('winner', (e) => {
+        console.log("winner", e.winner);
+        document.getElementById("winnerMsg").innerText = e.winner + " Wins";
+        document.getElementById('resultAlert').innerText = `Hooray! ${e.winner} has won the match`;
+        document.getElementById('resultAlert').style.display = 'block';
+        roomWinToast.show();
+        document.getElementById('restarOnlineGame').disabled = false;
+        for (let i in onlineInputElements) {
+            onlineInputElements[i].disabled = true;
+        }
+    })
+
 }
 
 document.querySelectorAll(".gameGrid").forEach(ele => {
@@ -380,16 +408,18 @@ function winCheck(name, sum) {
         (c1 == c5 && c5 == c9) ||
         (c3 == c5 && c5 == c7)) {
 
-        socket.emit("gameOver", { name: name });
-        document.getElementById("winnerMsg").innerText = name + " Wins";
-        roomWinToast.show();
-        document.getElementById('restarOnlineGame').disabled = false;
+        socket.emit("gameOver", { sum, currRoom, name });
     }
 
     else if (sum == 10) {
-        socket.emit("gameOver", { name: name });
+        //socket.emit("gameOver", { sum, currRoom, name });
         roomDrawToast.show();
+        document.getElementById("resultAlert").innerText = 'Looks like a tough Competetion!';
+        document.getElementById("resultAlert").style.display = 'block';
         document.getElementById('restarOnlineGame').disabled = false;
+        for (let i in onlineInputElements) {
+            onlineInputElements[i].disabled = true;
+        }
     }
 
 }

@@ -332,14 +332,16 @@
         if (p1id != '') {
             console.log("Entered X Change")
             document.getElementById(p1id).value = "X"
-            document.getElementById(p1id).disabled = true
+            document.getElementById(p1id).disabled = true;
+            winCheck(userName, foundObject.sum);
         }
         if (p2id != '') {
             document.getElementById(p2id).value = "O"
-            document.getElementById(p2id).disabled = true
+            document.getElementById(p2id).disabled = true;
+            winCheck(userName, foundObject.sum);
         }
 
-        winCheck(userName, foundObject.sum);
+        
     });
 
     socket.on('privateRoom', (e) => {
