@@ -1,5 +1,8 @@
 body {
     background-color: #08D9D6;
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 2;
+    animation-fill-mode: forwards;
 }
 
 .pageLoader {
@@ -34,10 +37,8 @@ svg {
     height: 3vh;
 }
 
-body header, body main {
-    animation: fadeInAnimation ease 3s;
-    animation-iteration-count: 2;
-    animation-fill-mode: forwards;
+body {
+    
 }
 
 h1 {
