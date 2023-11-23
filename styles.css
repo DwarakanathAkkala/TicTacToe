@@ -124,19 +124,14 @@ button {
     padding-right: 3px !important;
 }
 
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+/* footer {
+    
 }
 
 footer > div {
-    color: white;
-    font-weight: bold;
-    float: right;
-    margin-right: 3%;
-    margin-bottom: 2%;
-}
+    
+    
+} */
 
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
@@ -181,4 +176,30 @@ footer > div {
     100% {
         opacity: 1;
     }
+}
+
+
+footer {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer div {
+    flex: 1;
+    margin: 1rem;
+    gap: 2rem 1rem;
+    margin-right: 3%;
+    margin-bottom: 1%;
+}
+
+footer div {
+    color: white;
+}
+
+footer p {  
+    text-align: right;
+    color: white;
+    font-weight: bold;
 }
