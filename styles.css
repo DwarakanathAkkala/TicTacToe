@@ -2,6 +2,44 @@ body {
     background-color: #08D9D6;
 }
 
+.pageLoader {
+    height: 100vh;
+    background-color: #060e33;
+    color: #EAEAEA;
+    animation: fadeOutAnimation ease 3s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+}
+
+.pageLoader h1 {
+    color: #EAEAEA;
+}
+
+.pageLoader > .container {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+figure > img {
+    max-width: 20vw !important;
+    height: 30vh !important;
+    border-radius: 25px;
+}
+
+svg {
+    height: 3vh;
+}
+
+body header, body main {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 2;
+    animation-fill-mode: forwards;
+}
+
 h1 {
     color: #252A34;
 }
@@ -107,5 +145,29 @@ button {
     .prefColBtn {
         padding-left: 2px;
         padding-right: 2px;
+    }
+}
+
+@keyframes fadeOutAnimation {
+    33% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 1;
     }
 }

@@ -131,6 +131,13 @@ let waitForRandomPlayerModal = new bootstrap.Modal(document.getElementById('wait
 let joinTabEle = new bootstrap.Tab(document.getElementById("join"));
 
 window.onload = () => {
+
+    const loader = document.querySelector('.pageLoader');
+    setTimeout(function () {
+        // After 3 seconds, the loader will be hidden.
+        loader.style.display = 'none';
+    }, 3000);
+
     document.getElementById('restarOnlineGame').disabled = true;
     for (const [key, value] of searchParams.entries()) {
         if (key == "room" && value != null) {
